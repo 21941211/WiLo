@@ -1,0 +1,2 @@
+Device_ID,Gateway_ID,SleepTime[s],SampleRate[ms],Time_Bofore_Heat[ms],HeaterOn_Time[ms],HeaterOff_Time[ms]
+1,1,900,1000,15000,20000,20000 
