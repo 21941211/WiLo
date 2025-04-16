@@ -14,16 +14,17 @@
 #include "SapFlow_Driver.h"
 #include "driver/rtc_io.h"
 #include "debug.h"
+#include "OTA_Driver.h"
 
-
-// This is a test
-//this is another test
 
 #define PULLDOWN_GPIO GPIO_NUM_5 // Only RTC IO are allowed
+
+
 
 uint8_t SDWRITE_DONE = 0;
 
 uint8_t SDI12_SETUP_COMPLETE = 0;
+
 
 void setup()
 {
@@ -31,14 +32,25 @@ void setup()
   pinMode(GPIO_NUM_5, OUTPUT);
   digitalWrite(GPIO_NUM_5, LOW);
 
-  // Slow down CPU for lower power usage
-  setCpuFrequencyMhz(40);
+  
+
   Serial.begin(115200);
-  delay(500);
-
-
+  delay(3000);
 
   Serial.println("Starting");
+
+  if (!OTA_Window_Missed)
+  {
+    if (setupOTA()){ 
+      LoopOTA();
+    OTA_Window_Missed = 1;
+  } else{
+    OTA_Window_Missed = 1;
+  }
+  }
+
+disableWiFi();
+  
     Serial.println("Checking flags and boot count: ");
   if (bootCount > 999999)
   {
@@ -54,8 +66,10 @@ void setup()
     Serial.println("Measurement transmitted in previous cycle (0 = yes, 1 = no): " + String(MEASURE_COMPLETE));
   Serial.println("******************************************************");
 
+// Slow down CPU for lower power usage
+    setCpuFrequencyMhz(40);
 
-  
+    Serial.println("Test");
 
   pinMode(SD_ENABLE_PIN, OUTPUT);
   pinMode(LORA_CS_PIN, OUTPUT);

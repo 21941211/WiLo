@@ -71,13 +71,15 @@ if (sleepTime==LIGHT_SLEEP){
   }
   if (SLEEP_TIME>=TIMEOUT)
   {
+    
     Serial.println("Transmission timeout reached, going to DEEP SLEEP now...");
     MEASURE_COMPLETE = 0;
     FirstLightSleep = 1;
-   
+   Serial.println("Initial active time: "+ String(initialActiveTime));
     Serial.flush(); 
     int remainingSleepTime = DEEP_SLEEP-initialActiveTime-SLEEP_TIME;
-    Serial.println("Remaining deep sleep time: "+String(remainingSleepTime));
+    SLEEP_TIME = 0;
+    Serial.println("Remaining deep sleep time: "+String(remainingSleepTime)+ "s");
     esp_sleep_enable_timer_wakeup(remainingSleepTime*uS_TO_S_FACTOR);
      initialActiveTime = 0;
     esp_deep_sleep_start();
@@ -89,6 +91,7 @@ if (sleepTime==LIGHT_SLEEP){
   }
 }
 else{
+  SLEEP_TIME = 0;
     int remainingSleepTime = (DEEP_SLEEP - millis()/1000);
     Serial.println("Remaining sleep time: "+ String(remainingSleepTime)+" s");
     Serial.flush(); 
