@@ -15,6 +15,9 @@
 #include "driver/rtc_io.h"
 #include "debug.h"
 
+
+// This is a test
+
 #define PULLDOWN_GPIO GPIO_NUM_5 // Only RTC IO are allowed
 
 uint8_t SDWRITE_DONE = 0;
