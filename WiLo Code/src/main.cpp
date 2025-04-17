@@ -15,16 +15,14 @@
 #include "driver/rtc_io.h"
 #include "debug.h"
 #include "OTA_Driver.h"
+#include "esp_wifi.h"
 
 
 #define PULLDOWN_GPIO GPIO_NUM_5 // Only RTC IO are allowed
 
-
-
 uint8_t SDWRITE_DONE = 0;
 
 uint8_t SDI12_SETUP_COMPLETE = 0;
-
 
 void setup()
 {
@@ -32,25 +30,14 @@ void setup()
   pinMode(GPIO_NUM_5, OUTPUT);
   digitalWrite(GPIO_NUM_5, LOW);
 
-  
-
+  // Slow down CPU for lower power usage
+  //setCpuFrequencyMhz(40);
   Serial.begin(115200);
-  delay(3000);
+  delay(500);
+
+
 
   Serial.println("Starting");
-
-  if (!OTA_Window_Missed)
-  {
-    if (setupOTA()){ 
-      LoopOTA();
-    OTA_Window_Missed = 1;
-  } else{
-    OTA_Window_Missed = 1;
-  }
-  }
-
-disableWiFi();
-  
     Serial.println("Checking flags and boot count: ");
   if (bootCount > 999999)
   {
@@ -60,16 +47,49 @@ disableWiFi();
     bootCount++;
   }
 
+  if (!OTA_Window_Missed)
+  {
+    if (setupOTA()){ 
+      LoopOTA();
+    OTA_Window_Missed = 1;
+    esp_sleep_enable_timer_wakeup(10*uS_TO_S_FACTOR);
+    disableWiFi();
+    esp_wifi_deinit();  // deeper cleanup, if needed
+    Serial.println("OTA Window Missed, going to sleep for 10 seconds");
+    delay(1000);
+    esp_deep_sleep_start();
+  } else{
+    OTA_Window_Missed = 1;
+    disableWiFi();
+    esp_sleep_enable_timer_wakeup(10*uS_TO_S_FACTOR);
+    esp_wifi_deinit();  // deeper cleanup, if needed
+    Serial.println("OTA Window Missed, going to sleep for 10 seconds");
+    delay(1000);
+    esp_deep_sleep_start();
+    
+  }
+  }
+
+
+
+// esp_wifi_deinit();  // deeper cleanup, if needed
+
+Serial.print("Free heap after WiFi cleanup: ");
+Serial.println(ESP.getFreeHeap());
+
+
+setCpuFrequencyMhz(40);
+delay(500);
+
+
     Serial.println("Boot number: " + String(bootCount));
     Serial.println("SDI12-Connection Status (0 = NC, 1 = C): " +String(SDI12_CONNECTED));
     Serial.println("SDI12-Connection Type (0 = 60cm, 1 = 90cm, 2 = CS655, 3 = none): "+ String(SDI12_TYPE));
     Serial.println("Measurement transmitted in previous cycle (0 = yes, 1 = no): " + String(MEASURE_COMPLETE));
   Serial.println("******************************************************");
 
-// Slow down CPU for lower power usage
-    setCpuFrequencyMhz(40);
 
-    Serial.println("Test");
+  
 
   pinMode(SD_ENABLE_PIN, OUTPUT);
   pinMode(LORA_CS_PIN, OUTPUT);

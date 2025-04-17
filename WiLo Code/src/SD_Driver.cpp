@@ -453,7 +453,6 @@ int LEDFlash = 0;
 if (LEDFlash ==5)
 {
   Serial.println("SD connect timeout reached");
-  Serial.println("Going to sleep for 10 seconds to reset");
   goSleep(LIGHT_SLEEP);
 }
 
