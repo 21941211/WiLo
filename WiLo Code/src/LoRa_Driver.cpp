@@ -142,7 +142,7 @@ void onEvent(ev_t ev)
         // Schedule next transmission
         // os_setTimedCallback(&sendjob, os_getTime()+sec2osticks(TX_INTERVAL), do_send);
         MEASURE_COMPLETE = 0;
-
+        //LoRaKeyRead = 0;
         LMIC_shutdown();
         delay(1000);
 
@@ -192,6 +192,7 @@ void onEvent(ev_t ev)
         break;
     case EV_JOIN_TXCOMPLETE:
         Serial.println(F("EV_JOIN_TXCOMPLETE: no JoinAccept"));
+       // LoRaKeyRead = 0;
 
         LMIC_shutdown();
         delay(1000);

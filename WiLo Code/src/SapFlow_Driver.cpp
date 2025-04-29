@@ -173,7 +173,7 @@ Serial.println(size);
    // gpio_reset_pin(SF_DENDRO_EN_PIN);
     //while(1);
     Serial.println("Estimated HPV using Marshall formulab (scaled by 100): ");
-    HPV = calculateHPV(arrSapflowT1, arrSapflowT2, startHP, endHP)*100.0;
+    HPV = calculateHPV(arrSapflowT1, arrSapflowT2, startHP, endHP);
     if (isnan(HPV))
     {
       HPV=9999.99;
@@ -304,16 +304,32 @@ Serial.println("Avg T1 After:");
 
 
     //Marshall formula values
-float k = 0.25/1000000.0; //m^2
-float x  = 6.0/1000.0; // 6 mm to m
+float k = 0.25; //mm^2
+float x  = 6.0; // 6 mm 
 
     float k_over_x = k / x;
 
     Serial.println("k/x:");
     Serial.println(k_over_x);
 
-    float Calc_HPV = k_over_x * (log( deltaT2AfterBefore/deltaT1AfterBefore)) * 3600.0;
+    float Calc_HPV = 0.0f;
 
+
+if (avgT1Before == -40.0f || avgT2Before == -40.0f || avgT1During == -40.0f || avgT2During == -40.0f || avgT1After == -40.0f || avgT2After == -40.0f){
+   Serial.println("Sapflow sensor not connected or faulty");
+    Calc_HPV = 1111.11f;
+    avgT1Before = 1111.11f;
+    avgT2Before = 1111.11f;
+    avgT1During = 1111.11f;
+    avgT2During = 1111.11f;
+    avgT1After = 1111.11f;
+    avgT2After = 1111.11f;
+    deltaT1AfterBefore = 1111.11f;
+    deltaT2AfterBefore = 1111.11f;
+
+   } else{
+    Calc_HPV = k_over_x * (log( deltaT2AfterBefore/deltaT1AfterBefore)) * 3600.0; //mm/h
+   }
  
     return Calc_HPV;
 }

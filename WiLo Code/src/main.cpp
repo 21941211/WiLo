@@ -345,7 +345,7 @@ testCS655();
 #ifdef ENABLE_LORA
 
     os_runloop_once();
-   // delay(100);
+   // delay(1);
 #endif
   }
   #endif

@@ -24,7 +24,7 @@ extern uint8_t dataBuffer[BUFFERSIZE];
 extern std::vector<uint8_t> LoRaBuffer;
 extern std::vector<uint8_t> PayLoadTest;
 extern uint8_t LoRaBuffer_SDI12[13];
-
+//extern uint8_t LoRaKeyRead;
 
 
 void SDSetup();

@@ -10,6 +10,7 @@ const byte key[] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 
 // Device ID in HEX
 String deviceIDHex;
 
+//uint8_t LoRaKeyRead = 0;
 uint8_t endOfFirstPayload = 0;
 uint8_t startOfSDI12Payload = 0;
 byte dataRead;
@@ -70,7 +71,7 @@ bool readParametersFromFile(const char *path) {
   }
 
 Serial.println("File opened");
-
+delay(100);
  while (file.available()) {
     String line = file.readStringUntil('\n');
     line.trim();
@@ -475,7 +476,11 @@ listDir(SD, "/", 0);
   Serial.println("");
 
     // Read parameters from file
-Serial.println("Reading loRa keys from file");
+
+  Serial.println("LoRa key read status:");
+  //Serial.println(LoRaKeyRead); 
+//if (!LoRaKeyRead){
+  Serial.println("Reading loRa keys from file");
   if (!readParametersFromFile(paramFile)) {
     Serial.println("Failed to read parameters from file.");
     pinMode(DEBUG_LED_PIN,OUTPUT);
@@ -484,7 +489,11 @@ Serial.println("Reading loRa keys from file");
       delay(3000);
       digitalWrite(DEBUG_LED_PIN, LOW);
     }
-  }
+//  }
+  Serial.println("LoRa keys read successfully");
+ // LoRaKeyRead = 1;
+}
+
 
 
  

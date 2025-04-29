@@ -6,9 +6,10 @@ RTC_DATA_ATTR int OTA_Window_Missed = 0; // RTC memory variable to keep track of
 
 
 // Static IP Configuration (for Android hotspot)
-IPAddress local_IP(192, 168, 220, 50);  // ESP32 static IP
-IPAddress gateway(192, 168, 220, 22);   // Android hotspot IP (gateway)
-IPAddress subnet(255, 255, 255, 0);     // Subnet mask
+IPAddress static_IP_Android(192, 168, 146, 150);
+IPAddress static_IP_Iphone(172, 20, 10, 4); // Static IP address
+IPAddress gateway;
+IPAddress subnet;
 
 const char* host = "esp32";
 const char* ssid = "CSE";
@@ -65,7 +66,7 @@ const char* serverIndex = R"rawliteral(
   </head>
   <body>
     <h2>ESP32 Firmware Uploader</h2>
-    <form method='POST' action='#' enctype='multipart/form-data' id='upload_form'>
+<form method='POST' action='/update' enctype='multipart/form-data' id='upload_form'>
       <input type='file' name='update'><br>
       <input type='submit' value='Update Firmware'>
     </form>
@@ -108,93 +109,237 @@ const char* serverIndex = R"rawliteral(
   
 
 
-uint8_t setupOTA() {
+  uint8_t setupOTA() {
+    pinMode(ledPin, OUTPUT);
+    digitalWrite(ledPin, LOW); // LED OFF initially
+
+    Serial.println("Starting AP for OTA...");
+
+    // Start ESP32 in Access Point mode
+    WiFi.mode(WIFI_AP);
+    bool apStarted = WiFi.softAP(ssid, password);
+
+    if (!apStarted) {
+        Serial.println("Failed to start AP");
+        return 0;
+    }
+
+    IPAddress ip = WiFi.softAPIP();
+    Serial.print("AP IP address: ");
+    Serial.println(ip);
+
+    Serial.print("Waiting for client to connect");
+    unsigned long startAttemptTime = millis();
+    while ((WiFi.softAPgetStationNum() == 0) && (millis() - startAttemptTime < 60000)) {
+        delay(500);
+        Serial.print(".");
+    }
+
+    if (WiFi.softAPgetStationNum() == 0) {
+        Serial.println("\nNo client connected within timeout.");
+        WiFi.softAPdisconnect(true); // Stop AP
+        return 0;
+    }
+
+    Serial.println("\nClient connected!");
+
+    digitalWrite(ledPin, HIGH); // LED ON to show AP and client active
+    delay(3000);
 
 
-    pinMode(DEBUG_LED_PIN, OUTPUT);
-    digitalWrite(ledPin, LOW); // LED OFF when not connected
-  
-    // Set static IP config and connect to WiFi
-   WiFi.config(local_IP, gateway, subnet);
-    WiFi.begin(ssid, password);
-  
-    Serial.print("Connecting to WiFi");
-    int startTime = millis();
-    while (WiFi.status() != WL_CONNECTED && millis() - startTime < 15000) {
-      delay(500);
-      Serial.print(".");
-    }
-  
-    digitalWrite(ledPin, HIGH); 
-  
-    if (WiFi.status() != WL_CONNECTED) {
-      Serial.println("Failed to connect to WiFi. Check your credentials.");
-      return 0;
-    }
-  
-    Serial.println("\nConnected to WiFi");
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
-  
-    digitalWrite(ledPin, HIGH); // LED ON when connected
-  
-    if (!MDNS.begin(host)) {
-      Serial.println("Error setting up MDNS responder!");
-      while (1) {
-        delay(1000);
-      }
-    }
-    Serial.println("mDNS responder started");
-  
     // Serve the update form
     server.on("/", HTTP_GET, []() {
-      server.sendHeader("Connection", "close");
-      server.send(200, "text/html", serverIndex);
+        server.sendHeader("Connection", "close");
+        server.send(200, "text/html", serverIndex);
     });
-  
+
     // Handle the OTA update
     server.on("/update", HTTP_POST, []() {
-      server.sendHeader("Connection", "close");
-      server.send(200, "text/plain", Update.hasError() ? "FAIL" : "OK");
-      ESP.restart();
+        server.sendHeader("Connection", "close");
+        server.send(200, "text/plain", Update.hasError() ? "FAIL" : "OK");
+        ESP.restart();
     }, []() {
-      HTTPUpload& upload = server.upload();
-      if (upload.status == UPLOAD_FILE_START) {
-        Serial.printf("Update: %s\n", upload.filename.c_str());
-        if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
-          Update.printError(Serial);
+        HTTPUpload& upload = server.upload();
+        if (upload.status == UPLOAD_FILE_START) {
+            Serial.printf("Update: %s\n", upload.filename.c_str());
+            if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
+                Update.printError(Serial);
+            }
+        } else if (upload.status == UPLOAD_FILE_WRITE) {
+            if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
+                Update.printError(Serial);
+            }
+        } else if (upload.status == UPLOAD_FILE_END) {
+            if (Update.end(true)) {
+                Serial.printf("Update Success: %u bytes\nRebooting...\n", upload.totalSize);
+                OTA_Window_Missed = 1;
+            } else {
+                Update.printError(Serial);
+            }
         }
-      } else if (upload.status == UPLOAD_FILE_WRITE) {
-        if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
-          Update.printError(Serial);
-        }
-      } else if (upload.status == UPLOAD_FILE_END) {
-        if (Update.end(true)) {
-          Serial.printf("Update Success: %u bytes\nRebooting...\n", upload.totalSize);
-          OTA_Window_Missed = 1; 
-        } else {
-          Update.printError(Serial);
-        }
-      }
     });
-  
+
     server.begin();
     return 1;
-  }
+}
 
-  void LoopOTA(){
-    while(WiFi.status() == WL_CONNECTED){
-        server.handleClient();
-        delay(1);
-        }
-        Serial.println("WiFi disconnected");
-        digitalWrite(ledPin, LOW); // LED OFF when disconnected
-        WiFi.disconnect();
-        WiFi.mode(WIFI_OFF);
-      }
+
+// uint8_t setupOTA() {
+
+
+//     pinMode(DEBUG_LED_PIN, OUTPUT);
+//     digitalWrite(ledPin, LOW); // LED OFF when not connected
+  
+//     // Set static IP config and connect to WiFi
+
+//    //WiFi.begin(ssid, password);
+
+
+  
+//     Serial.print("Connecting to WiFi");
+//     int startTime = millis();
+//     while (WiFi.status() != WL_CONNECTED && millis() - startTime < 15000) {
+//       delay(500);
+//       Serial.print(".");
+//     }
+  
+//     digitalWrite(ledPin, HIGH); 
+  
+//     if (WiFi.status() != WL_CONNECTED) {
+//       Serial.println("Failed to connect to WiFi. Check your credentials.");
+//       return 0;
+//     }
+  
+//     Serial.println("\nConnected to WiFi");
+//     Serial.print("IP address: ");
+//     Serial.println(WiFi.localIP());
+
+//     // gateway = WiFi.gatewayIP();
+//     // subnet = WiFi.subnetMask();
+//     // Serial.println("\nDHCP Connected!");
+//     // Serial.print("Gateway: "); Serial.println(gateway);
+//     // Serial.print("Subnet : "); Serial.println(subnet);
+  
+//     // // Step 2: Disconnect and reconnect with static IP
+//     // WiFi.disconnect(true);
+//     // delay(1000);
+  
+//     // WiFi.config(static_IP_Android, gateway, subnet);
+//     // WiFi.begin(ssid, password);
+  
+//     // Serial.print("Reconnecting with static IP");
+//     // while (WiFi.status() != WL_CONNECTED) {
+//     //   delay(500);
+//     //   Serial.print(".");
+//     // }
+  
+//     // Serial.println("\nStatic IP set!");
+//     // Serial.print("ESP32 IP: ");
+//     // Serial.println(WiFi.localIP());
+//     IPAddress ip = WiFi.localIP();
+//     String hostname = ip.toString();
+//     hostname.replace(".", "-"); // Convert IP to valid hostname
+  
+//     WiFi.disconnect(true); // Disconnect and erase previous settings
+//     delay(1000);
+  
+//     // Set new hostname BEFORE connecting
+//     WiFi.setHostname(hostname.c_str());
+  
+//     Serial.print("\nReconnecting with hostname: ");
+//     Serial.println(WiFi.getHostname());
+  
+//     WiFi.begin(ssid, password);
+  
+//     while (WiFi.status() != WL_CONNECTED) {
+//       delay(500);
+//       Serial.print(".");
+//     }
+  
+//     Serial.println("\nConnected!");
+//     Serial.print("IP: ");
+//     Serial.println(WiFi.localIP());
+//     Serial.print("Hostname: ");
+//     Serial.println(WiFi.getHostname());
+  
+  
+//     digitalWrite(ledPin, HIGH); // LED ON when connected
+  
+//     if (!MDNS.begin(host)) {
+//       Serial.println("Error setting up MDNS responder!");
+//       while (1) {
+//         delay(1000);
+//       }
+//     }
+//     Serial.println("mDNS responder started");
+  
+//     // Serve the update form
+//     server.on("/", HTTP_GET, []() {
+//       server.sendHeader("Connection", "close");
+//       server.send(200, "text/html", serverIndex);
+//     });
+  
+//     // Handle the OTA update
+//     server.on("/update", HTTP_POST, []() {
+//       server.sendHeader("Connection", "close");
+//       server.send(200, "text/plain", Update.hasError() ? "FAIL" : "OK");
+//       ESP.restart();
+//     }, []() {
+//       HTTPUpload& upload = server.upload();
+//       if (upload.status == UPLOAD_FILE_START) {
+//         Serial.printf("Update: %s\n", upload.filename.c_str());
+//         if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
+//           Update.printError(Serial);
+//         }
+//       } else if (upload.status == UPLOAD_FILE_WRITE) {
+//         if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
+//           Update.printError(Serial);
+//         }
+//       } else if (upload.status == UPLOAD_FILE_END) {
+//         if (Update.end(true)) {
+//           Serial.printf("Update Success: %u bytes\nRebooting...\n", upload.totalSize);
+//           OTA_Window_Missed = 1; 
+//         } else {
+//           Update.printError(Serial);
+//         }
+//       }
+//     });
+  
+//     server.begin();
+//     return 1;
+//   }
+
+  // void LoopOTA(){
+  //   while(WiFi.status() == WL_CONNECTED){
+  //       server.handleClient();
+  //       delay(1);
+  //       }
+  //       Serial.println("WiFi disconnected");
+  //       digitalWrite(ledPin, LOW); // LED OFF when disconnected
+  //       WiFi.disconnect();
+  //       WiFi.mode(WIFI_OFF);
+  //     }
 
       void disableWiFi() {
         WiFi.disconnect(true);   // Disconnect and erase credentials (true = erase)
         WiFi.mode(WIFI_OFF);     // Turn off WiFi hardware
         btStop();                // Optional: disable Bluetooth radio
       }
+
+  void LoopOTA() {
+    unsigned long lastActivity = millis();
+
+    while (WiFi.softAPgetStationNum() > 0) {
+        server.handleClient();
+        delay(1);
+
+        // Optional: Reset activity timer if serving requests
+        lastActivity = millis();
+    }
+
+    Serial.println("No more clients connected to AP.");
+    digitalWrite(ledPin, LOW); // LED OFF when no clients
+
+    WiFi.softAPdisconnect(true); // Stop AP
+    WiFi.mode(WIFI_OFF);
+}
