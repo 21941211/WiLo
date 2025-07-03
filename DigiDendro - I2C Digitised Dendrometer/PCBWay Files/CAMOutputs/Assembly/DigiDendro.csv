@@ -1,0 +1,10 @@
+"Qty";"Value";"Device";"Package";"Parts";"Description";"AVAILABILITY";"CHECK_PRICES";"DESCRIPTION";"MF";"MP";"PACKAGE";"POPULARITY";"PRICE";"PURCHASE-URL";"SNAPEDA_LINK";"SPICEPREFIX";
+"3";"";"PINHD-1X1";"1X01";"GND, SCL, VCC";"PIN HEADER";"";"";"";"";"";"";"64";"";"";"";"";
+"1";"";"PINHD-1X1";"1X01";"SDA";"PIN HEADER";"";"";"";"";"";"";"64";"";"";"";"X";
+"3";"";"PINHD-1X1-BIGPOGO";"1X1-BIGPOGO";"GND_, SIG, _VCC";"Pin header 1x1 for 0.1" spacing";"";"";"";"";"";"";"";"";"";"";"";
+"1";"0.1u";"C-EUC0805";"C0805";"C2";"CAPACITOR, European symbol";"";"";"";"";"";"";"88";"";"";"";"C";
+"2";"10k";"R-US_R0603";"R0603";"R1, R2";"RESISTOR, American symbol";"";"";"";"";"";"";"";"";"";"";"";
+"1";"10u";"C-EUC0805";"C0805";"C1";"CAPACITOR, European symbol";"";"";"";"";"";"";"88";"";"";"";"C";
+"1";"110k";"R-US_R0603";"R0603";"R4";"RESISTOR, American symbol";"";"";"";"";"";"";"";"";"";"";"";
+"1";"180k";"R-US_R0603";"R0603";"R5";"RESISTOR, American symbol";"";"";"";"";"";"";"";"";"";"";"";
+"1";"MCP3421A0T-E/CH";"MCP3421A0T-E/CH";"SOT95P280X145-6N";"U$1";"Check availability";"In Stock";"https://www.snapeda.com/parts/MCP3421A0T-E/CH/Microchip/view-part/?ref=eda";" Microchip 18 bit Serial ADC Differential Input 6-Pin SOT-23 | Microchip Technology Inc. MCP3421A0T-E/CH ";"Microchip";"MCP3421A0T-E/CH";"SOT-23-6 Microchip";"";"None";"https://www.snapeda.com/api/url_track_click_mouser/?unipart_id=13241&manufacturer=Microchip&part_name=MCP3421A0T-E/CH&search_term=None";"https://www.snapeda.com/parts/MCP3421A0T-E/CH/Microchip/view-part/?ref=snap";"";
