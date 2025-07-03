@@ -1,0 +1,12 @@
+#include "Arduino.h"
+#include "config.h"
+#include "DataProcessing_Driver.h"
+#include "ADC_Driver.h"
+#include "MeasureFlags.h"
+#include "debug.h"
+#include "defaultWiLoData.h"
+
+void SM_Measure();
+int averageSM();
+
+//extern float SM_Vol;
