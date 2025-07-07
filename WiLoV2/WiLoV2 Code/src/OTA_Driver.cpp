@@ -18,7 +18,6 @@ const char* ssid = "CSE";
 const char* password = "12345678";
 
 WebServer server(80);
-const int ledPin = 15; // Built-in LED on most ESP32 boards (you can change this if needed)
 
 const char* serverIndex = R"rawliteral(
 <!DOCTYPE html>
@@ -215,8 +214,8 @@ const char* serverIndex = R"rawliteral(
 */
 
   uint8_t setupOTA() {
-    pinMode(ledPin, OUTPUT);
-    digitalWrite(ledPin, LOW); // LED OFF initially
+    pinMode(RTC_EN_PIN, OUTPUT);
+    digitalWrite(RTC_EN_PIN, LOW); // LED and RTC OFF initially
 
     Serial.println("Starting AP for OTA...");
 
@@ -249,7 +248,7 @@ const char* serverIndex = R"rawliteral(
 
     Serial.println("\nClient connected!");
 
-    digitalWrite(ledPin, HIGH); // LED ON to show AP and client active
+    digitalWrite(RTC_EN_PIN, HIGH); // LED and RTC ON to show AP and client active
     delay(3000);
 
 
@@ -457,7 +456,7 @@ server.on("/set-time", HTTP_GET, []() {
     }
 
     Serial.println("No more clients connected to AP.");
-    digitalWrite(ledPin, LOW); // LED OFF when no clients
+    digitalWrite(RTC_EN_PIN, LOW); // LED and RTC OFF when no clients
 
     WiFi.softAPdisconnect(true); // Stop AP
     WiFi.mode(WIFI_OFF);

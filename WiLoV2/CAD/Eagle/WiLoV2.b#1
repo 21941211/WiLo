@@ -165,29 +165,29 @@
 <wire x1="0" y1="81.4" x2="0" y2="-1.2" width="0" layer="20"/>
 <text x="33.9325" y="6.2225" size="1" layer="26" font="vector" ratio="15" rot="MR0" align="center">WILO V2.0</text>
 <text x="23.5675" y="4.54" size="1" layer="26" font="vector" ratio="15" rot="MR0" align="center">IMPACT - STELLENBOSCH UNIVERSITY</text>
-<text x="5.7215" y="22.39" size="2.1844" layer="25" font="vector" ratio="15" align="center">ON</text>
-<text x="6.5865" y="2.275" size="2.1844" layer="25" font="vector" ratio="15" align="center">OFF</text>
-<text x="81.669" y="0.75575" size="1.27" layer="25" font="vector" ratio="15" rot="R180" align="center">+</text>
-<text x="86.684" y="0.61925" size="1.27" layer="25" font="vector" ratio="15" align="center">-</text>
-<text x="84.14425" y="0.8265" size="1.27" layer="25" font="vector" ratio="15" rot="R90" align="center">D</text>
-<text x="2.12725" y="77.88275" size="1.27" layer="25" font="vector" ratio="15" rot="R90" align="center">+</text>
-<text x="2.19075" y="72.16775" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">-</text>
-<text x="2.12725" y="75.02525" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">D</text>
-<text x="56.09025" y="0.80225" size="1" layer="25" font="vector" ratio="15" rot="R270" align="center">+</text>
-<text x="61.38275" y="0.82675" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">-</text>
-<text x="58.49025" y="0.95975" size="1" layer="25" font="vector" ratio="15" rot="R90" align="center">D</text>
-<text x="23.27275" y="79.78775" size="1.27" layer="25" font="vector" ratio="15" align="center">+</text>
-<text x="17.55775" y="79.72425" size="1.27" layer="25" font="vector" ratio="15" rot="R180" align="center">-</text>
-<text x="20.41525" y="79.78775" size="1.27" layer="25" font="vector" ratio="15" rot="R180" align="center">D</text>
-<text x="65.99025" y="0.97975" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">+</text>
-<text x="68.60975" y="0.41525" size="1.27" layer="25" font="vector" ratio="15" rot="R90" align="center">HP</text>
-<text x="71.19025" y="0.94225" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">SCL</text>
-<text x="73.79025" y="0.91725" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">SDA</text>
-<text x="76.32675" y="0.93975" size="1.27" layer="25" font="vector" ratio="15" rot="R90" align="center">-</text>
+<text x="6.9215" y="21.59" size="1" layer="25" font="vector" ratio="15" align="center">ON</text>
+<text x="6.5865" y="1.575" size="1" layer="25" font="vector" ratio="15" align="center">OFF</text>
+<text x="82.169" y="0.35575" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">+</text>
+<text x="87.884" y="0.41925" size="1" layer="25" font="vector" ratio="15" align="center">-</text>
+<text x="85.0265" y="0.35575" size="1" layer="25" font="vector" ratio="15" align="center">D</text>
+<text x="2.12725" y="77.88275" size="1" layer="25" font="vector" ratio="15" rot="R90" align="center">+</text>
+<text x="2.19075" y="72.16775" size="1" layer="25" font="vector" ratio="15" rot="R270" align="center">-</text>
+<text x="2.12725" y="75.02525" size="1" layer="25" font="vector" ratio="15" rot="R270" align="center">D</text>
+<text x="56.10225" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">+</text>
+<text x="61.81725" y="0.67325" size="1" layer="25" font="vector" ratio="15" align="center">-</text>
+<text x="58.95975" y="0.60975" size="1" layer="25" font="vector" ratio="15" align="center">D</text>
+<text x="23.27275" y="79.78775" size="1" layer="25" font="vector" ratio="15" align="center">+</text>
+<text x="17.55775" y="79.72425" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">-</text>
+<text x="20.41525" y="79.78775" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">D</text>
+<text x="66.57975" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">+</text>
+<text x="68.48475" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">HP</text>
+<text x="71.34225" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">SCL</text>
+<text x="74.51725" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">SDA</text>
+<text x="76.73975" y="0.67325" size="1" layer="25" font="vector" ratio="15" align="center">-</text>
 <text x="64.86275" y="61.34475" size="1" layer="25" font="vector" ratio="15" rot="R270" align="center">RFM95W</text>
 <dimension x1="0" y1="-1.7" x2="90.8" y2="-1.7" x3="45.4" y3="-6.983053125" textsize="1.27" textratio="15" layer="20"/>
 <text x="27.8675" y="2.6525" size="1" layer="26" font="vector" ratio="15" rot="MR0" align="center">DESIGNED BY CS ERASMUS</text>
-<text x="72.1325" y="64.6225" size="2.1844" layer="26" font="vector" ratio="15" rot="MR0" align="center">GITHUB</text>
+<text x="72.1325" y="64.6225" size="1" layer="26" font="vector" ratio="15" rot="MR0" align="center">GITHUB</text>
 <dimension x1="-0.5" y1="-1.2" x2="-0.5" y2="81.4" x3="-8.9" y3="40.1" textsize="1.778" layer="20"/>
 </plain>
 <libraries>

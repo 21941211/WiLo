@@ -107,7 +107,9 @@ Serial.println("******************************************************");
  #endif
 
 Serial.println("Setting up LoRa");
-
+    pinMode(LORA_EN_PIN, OUTPUT);
+    digitalWrite(LORA_EN_PIN, HIGH);
+    delay(200);
     setSPI(LORA_SPI);
 
     // LMIC init
@@ -222,12 +224,16 @@ void onEvent(ev_t ev)
 
         if (SDI12_CONNECTED)
         {
+             pinMode(LORA_EN_PIN, OUTPUT);
+             digitalWrite(LORA_EN_PIN, LOW);
             goSleep(WILO_MAX_CYCLE_TIME_WITH_SDI12_CONNECTED);
         }
         else
 #ifdef ENABLE_LORA_TEST
  goSleep(DEEP_SLEEP_LORA_TEST);
 #else
+         pinMode(LORA_EN_PIN, OUTPUT);
+         digitalWrite(LORA_EN_PIN, LOW);
             goSleep(WILO_MAX_CYCLE_TIME);
 #endif
         break;
@@ -269,6 +275,8 @@ void onEvent(ev_t ev)
        // LoRaKeyRead = 0;
 
         LMIC_shutdown();
+        pinMode(LORA_EN_PIN, OUTPUT);
+        digitalWrite(LORA_EN_PIN, LOW);
         delay(1000);
         goSleep(LIGHT_SLEEP);
         break;

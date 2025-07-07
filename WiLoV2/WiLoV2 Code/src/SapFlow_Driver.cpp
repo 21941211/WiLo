@@ -44,12 +44,14 @@ boolean referenceTempRecorded = false;
 
 
 void SFSetup(){
-pinMode(HEAT_PIN_SWITCH, OUTPUT);
-digitalWrite(HEAT_PIN_SWITCH, LOW);
 
 
-//pinMode(SF_DENDRO_EN_PIN,OUTPUT);
-digitalWrite(SF_DENDRO_EN_PIN,HIGH);
+digitalWrite(HEAT_PULSE_EN_PIN, LOW);
+
+pinMode(I2C_PORT_EN_PIN,OUTPUT);
+digitalWrite(I2C_PORT_EN_PIN,HIGH);
+
+delay(200);
 
 //delay(5000);
 
@@ -94,7 +96,7 @@ digitalWrite(SF_DENDRO_EN_PIN,HIGH);
     }
   }
   }else if(wilo.sfconnected){
-        Serial.print("Sapflow sensor exists on default ");
+        Serial.print("Sapflow sensor exists on default port");
       delay(100);
       sensor.begin();
       sensor2.begin();
@@ -143,7 +145,7 @@ void SF_Measure(){
     Serial.println(F("Done reading reference sapflow temperatures. Turning heating element on."));
     // SDI12_Setup();
     // SDI12_CONNECTED = SDI12_Check();
-    digitalWrite(SDI12_EN_PIN, HIGH);
+    digitalWrite(HEAT_PULSE_EN_PIN, HIGH);
     HEATER_STATE = DURING_HEAT;
     Serial.println(F("Heater and SDI-12 ON"));
      Serial.println("******************************************************");
@@ -160,10 +162,10 @@ void SF_Measure(){
   // }
 
   //turn off heating element after it has been on for >= 15 seconds
-  if (digitalRead(SDI12_EN_PIN) == HIGH && currentMillis - millisStartHeatPulse >= SAMPLE_TIME_DURING_HP)
+  if (digitalRead(HEAT_PULSE_EN_PIN) == HIGH && currentMillis - millisStartHeatPulse >= SAMPLE_TIME_DURING_HP)
   {
-    //digitalWrite(HEAT_PIN_SWITCH, LOW);
-    SDI12_Shutdown();
+    digitalWrite(HEAT_PULSE_EN_PIN, LOW);
+   // SDI12_Shutdown();
     HEATER_STATE = AFTER_HEAT;
     Serial.println(F("Heater OFF"));
      Serial.println("******************************************************");
@@ -259,118 +261,3 @@ for (int port = 0; port < 8; port++)
     
    }
   
-
-// void testRead(){
-//    temp1 = sensor.readTemp();
-//     Serial.print("Sensor 1 Temperature (C): ");
-//     Serial.print(temp1);
-//     temp2 = sensor2.readTemp();
-//     Serial.print(" Sensor 2 Temperature (C): ");
-// }
-
-
-
-
-
-// float calculateHPV(const std::vector<float>& arrSapflowT1, const std::vector<float>& arrSapflowT2, uint8_t StartHP, uint8_t endHP) {
-//     // Check if the Start and End indices are within the bounds of the vectors
-//     if (StartHP >= arrSapflowT1.size() || endHP >= arrSapflowT1.size() || StartHP > endHP) {
-//         return -1.0f;  // Return an error value if indices are out of bounds or invalid
-//     }
-
-//     size_t dataSize = arrSapflowT1.size();
-
-  
-//     for (size_t i = 0; i < StartHP; ++i) {
-//         avgT1Before += arrSapflowT1[i];
-//         avgT2Before += arrSapflowT2[i];
-//     }
-//     avgT1Before /= StartHP;
-//     avgT2Before /= StartHP;
-
-
-//     Serial.println("Avg T1 Before:");
-//     Serial.println(avgT1Before);
-//     Serial.println("Avg T2 Before:");
-//     Serial.println(avgT2Before);
-
-//     // Calculate average temperature for the "during" heat pulse period
-
-    
-//     for (size_t i = StartHP; i <= endHP; ++i) {
-//         avgT1During += arrSapflowT1[i];
-//         avgT2During += arrSapflowT2[i];
-//     }
-//     avgT1During /= (endHP - StartHP + 1);
-//     avgT2During /= (endHP - StartHP + 1);
-
-//     Serial.println("Avg T1 During:");
-//     Serial.println(avgT1During);
-//     Serial.println("Avg T2 During:");
-//     Serial.println(avgT2During);
-
-//     // Calculate average temperature for the "after" heat pulse period
-//       // Calculate average temperature for the "before" heat pulse period (baseline)
-  
-//     for (size_t i = endHP + 1; i < dataSize; ++i) {
-//         avgT1After += arrSapflowT1[i];
-//         avgT2After += arrSapflowT2[i];
-//     }
-//     avgT1After /= (dataSize - endHP - 1);
-//     avgT2After /= (dataSize - endHP - 1);
-
-// Serial.println("Avg T1 After:");
-//     Serial.println(avgT1After);
-//     Serial.println("Avg T2 After:");
-//     Serial.println(avgT2After);
-
-//     // // Calculate temperature differences for each period
-//     // float deltaT1Before = avgT1During - avgT1Before;
-//     // float deltaT2Before = avgT2During - avgT2Before;
-
-//     // float deltaT1During = avgT1During - avgT1Before;  // Calculate difference for "during" period
-//     // float deltaT2During = avgT2During - avgT2Before;  // Calculate difference for "during" period
-
-//     // float deltaT1After = avgT1After - avgT1During;
-//     // float deltaT2After = avgT2After - avgT2During;
-
-
-//     float deltaT1AfterBefore = avgT1After - avgT1Before;
-//     float deltaT2AfterBefore = avgT2After - avgT2Before;
-
-//     Serial.println("Delta T1 After minus Before:");
-//     Serial.println(deltaT1AfterBefore);
-//     Serial.println("Delta T2 After minus Before:");
-//     Serial.println(deltaT2AfterBefore);
-
-
-//     //Marshall formula values
-// float k = 0.25; //mm^2
-// float x  = 6.0; // 6 mm 
-
-//     float k_over_x = k / x;
-
-//     Serial.println("k/x:");
-//     Serial.println(k_over_x);
-
-//     float Calc_HPV = 0.0f;
-
-
-// if (avgT1Before == -40.0f || avgT2Before == -40.0f || avgT1During == -40.0f || avgT2During == -40.0f || avgT1After == -40.0f || avgT2After == -40.0f){
-//    Serial.println("Sapflow sensor not connected or faulty");
-//     Calc_HPV = 1111.11f;
-//     avgT1Before = 1111.11f;
-//     avgT2Before = 1111.11f;
-//     avgT1During = 1111.11f;
-//     avgT2During = 1111.11f;
-//     avgT1After = 1111.11f;
-//     avgT2After = 1111.11f;
-//     deltaT1AfterBefore = 1111.11f;
-//     deltaT2AfterBefore = 1111.11f;
-
-//    } else{
-//     Calc_HPV = k_over_x * (log( deltaT2AfterBefore/deltaT1AfterBefore)) * 3600.0; //mm/h
-//    }
- 
-//     return Calc_HPV;
-// }

@@ -20,7 +20,7 @@ float arrTemp[DHT_SAMPLE_SIZE] = {0};
 float arrHum[DHT_SAMPLE_SIZE] = {0};
 
 // Initialize DHT sensor.
-DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHT22_DATA_PIN, DHTTYPE);
 
 void DHTSetup() {
   dht.begin();

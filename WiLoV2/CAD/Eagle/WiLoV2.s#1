@@ -35243,7 +35243,7 @@ Source: &lt;a href="https://componentsearchengine.com/Datasheets/2/SI1865DDL-T1-
 <label x="246.38" y="175.26" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="RFM_CS" class="2">
+<net name="CS" class="2">
 <segment>
 <pinref part="S2MINI1" gate="G$1" pin="IO34"/>
 <wire x1="241.3" y1="167.64" x2="246.38" y2="167.64" width="0.1524" layer="91"/>
@@ -35264,9 +35264,9 @@ Source: &lt;a href="https://componentsearchengine.com/Datasheets/2/SI1865DDL-T1-
 <label x="38.1" y="218.44" size="1.27" layer="95" rot="R270" xref="yes"/>
 </segment>
 <segment>
-<pinref part="S2MINI1" gate="G$1" pin="IO8"/>
-<wire x1="193.04" y1="162.56" x2="187.96" y2="162.56" width="0.1524" layer="91"/>
-<label x="187.96" y="162.56" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="S2MINI1" gate="G$1" pin="IO6"/>
+<wire x1="193.04" y1="167.64" x2="187.96" y2="167.64" width="0.1524" layer="91"/>
+<label x="187.96" y="167.64" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="SDI12_DATA" class="1">
@@ -35358,9 +35358,9 @@ Source: &lt;a href="https://componentsearchengine.com/Datasheets/2/SI1865DDL-T1-
 <pinref part="DHT22" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="S2MINI1" gate="G$1" pin="IO6"/>
-<wire x1="193.04" y1="167.64" x2="187.96" y2="167.64" width="0.1524" layer="91"/>
-<label x="187.96" y="167.64" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="S2MINI1" gate="G$1" pin="IO4"/>
+<wire x1="193.04" y1="172.72" x2="187.96" y2="172.72" width="0.1524" layer="91"/>
+<label x="187.96" y="172.72" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="BATT_ADC" class="1">
@@ -35654,16 +35654,16 @@ Source: &lt;a href="https://componentsearchengine.com/Datasheets/2/SI1865DDL-T1-
 <junction x="284.48" y="60.96"/>
 </segment>
 <segment>
-<pinref part="S2MINI1" gate="G$1" pin="IO13"/>
-<wire x1="210.82" y1="142.24" x2="210.82" y2="139.7" width="0.1524" layer="91"/>
-<label x="210.82" y="139.7" size="1.27" layer="95" rot="R270" xref="yes"/>
+<pinref part="S2MINI1" gate="G$1" pin="IO10"/>
+<wire x1="193.04" y1="157.48" x2="187.96" y2="157.48" width="0.1524" layer="91"/>
+<label x="187.96" y="157.48" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="SD_PWR_EN" class="1">
 <segment>
-<pinref part="S2MINI1" gate="G$1" pin="IO10"/>
-<wire x1="193.04" y1="157.48" x2="187.96" y2="157.48" width="0.1524" layer="91"/>
-<label x="187.96" y="157.48" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="S2MINI1" gate="G$1" pin="IO8"/>
+<wire x1="193.04" y1="162.56" x2="187.96" y2="162.56" width="0.1524" layer="91"/>
+<label x="187.96" y="162.56" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="RTC_PWR_EN" class="0">
@@ -35725,13 +35725,6 @@ Source: &lt;a href="https://componentsearchengine.com/Datasheets/2/SI1865DDL-T1-
 <wire x1="203.2" y1="76.2" x2="203.2" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="203.2" y1="88.9" x2="200.66" y2="88.9" width="0.1524" layer="91"/>
 <junction x="200.66" y="88.9"/>
-</segment>
-</net>
-<net name="RFM_PWR_EN" class="1">
-<segment>
-<pinref part="S2MINI1" gate="G$1" pin="IO4"/>
-<wire x1="193.04" y1="172.72" x2="187.96" y2="172.72" width="0.1524" layer="91"/>
-<label x="187.96" y="172.72" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 </nets>
@@ -36131,7 +36124,7 @@ Source: &lt;a href="https://componentsearchengine.com/Datasheets/2/SI1865DDL-T1-
 <label x="71.12" y="213.36" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="RFM_CS" class="2">
+<net name="CS" class="2">
 <segment>
 <pinref part="RFM95W" gate="G$1" pin="NSS"/>
 <wire x1="293.37" y1="210.82" x2="294.64" y2="210.82" width="0.1524" layer="91"/>

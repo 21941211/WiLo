@@ -9,9 +9,9 @@ RTC_DS3231 rtc;
 uint8_t setupRTC() {
   //Serial.begin(9600);
   Wire.end();
-  if(!digitalRead(SF_DENDRO_EN_PIN)){
-  pinMode(SF_DENDRO_EN_PIN,OUTPUT);
-  digitalWrite(SF_DENDRO_EN_PIN,HIGH);
+  if(!digitalRead(RTC_EN_PIN)){
+  pinMode(RTC_EN_PIN,OUTPUT);
+  digitalWrite(RTC_EN_PIN,HIGH);
   }
   delay(100);
   Wire.begin(I2C_SDA, I2C_SCL, 400000);

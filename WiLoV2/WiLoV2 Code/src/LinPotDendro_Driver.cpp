@@ -62,7 +62,7 @@ if (!dendroState){
 
 void setDendroParameters(){
 
-  digitalWrite(SF_DENDRO_EN_PIN, HIGH); // turn the DENDRO on (HIGH is the voltage level)
+  digitalWrite(I2C_PORT_EN_PIN, HIGH); // turn the DENDRO on (HIGH is the voltage level)
  Serial.println("Dendro En Done");
 
   delay(2333);

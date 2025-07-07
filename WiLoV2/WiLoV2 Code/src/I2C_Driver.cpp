@@ -56,6 +56,15 @@ void I2C_Mux_SelectPort(uint8_t port){
 
 //Function that scans WiLo I2C addresses and stores them in the i2cDevice struct if found
 void I2Csetup(){ 
+
+  pinMode(I2C_PORT_EN_PIN, OUTPUT);
+  pinMode(RTC_EN_PIN, OUTPUT);
+
+  digitalWrite(I2C_PORT_EN_PIN, HIGH);
+  digitalWrite(RTC_EN_PIN, HIGH);
+
+  delay(200);
+
  Wire.begin(I2C_SDA, I2C_SCL, 400000);
   
   delay(200);
@@ -81,7 +90,8 @@ if(I2CAddresses(wilo.i2cAddresses, &wilo.i2cAddressCount)){
         if(isRTC_DS3231()){
         //printRTCLoop();
         wilo.i2cDeviceType=RTC;
-        Serial.println("RTC connected on default port");
+        Serial.println("RTC connected on default port or Internally");
+        digitalWrite(RTC_EN_PIN, LOW); // Disable RTC power
 
 }else{ 
    Serial.println("Dendrometer found on default port, address 0x68");
@@ -103,6 +113,7 @@ if(I2CAddresses(wilo.i2cAddresses, &wilo.i2cAddressCount)){
   }
 }else{
   Serial.println("No I2C devices found");
+  digitalWrite(I2C_PORT_EN_PIN, LOW); // Disable I2C port power
 }
 
 //I2C_MUX_CONNECTED = true; // Reset the flag before scanning

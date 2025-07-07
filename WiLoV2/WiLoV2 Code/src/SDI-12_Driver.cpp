@@ -440,12 +440,9 @@ void SDI12_Shutdown()
 mySDI12.end();
 Serial.println("Closing SDI-12 bus...");
 
-  rtc_gpio_hold_dis(GPIO_NUM_5);
-  pinMode(GPIO_NUM_5, OUTPUT);
-  digitalWrite(GPIO_NUM_5, LOW);
-  digitalWrite(SDI12_EN_PIN, LOW);
-  rtc_gpio_hold_en(GPIO_NUM_5); // Lock GPIO 5 state
 
+  digitalWrite(SDI12_EN_PIN, LOW);
+ 
   Serial.println("SDI12 is now OFF");
 
   Serial.println("******************************************************");

@@ -65,11 +65,6 @@ void setup()
   }
 
   Serial.println("Starting");
-
-//setupRTC();
-
-  
-
 setCpuFrequencyMhz(40);
 delay(500);
 
@@ -90,15 +85,17 @@ delay(500);
 
 
 
+pinMode(HEAT_PULSE_EN_PIN, OUTPUT);
+digitalWrite(HEAT_PULSE_EN_PIN, LOW);
 
-
-pinMode(SF_DENDRO_EN_PIN,OUTPUT);
+pinMode(I2C_PORT_EN_PIN,OUTPUT);
 pinMode(SDI12_EN_PIN,OUTPUT);
-digitalWrite(SF_DENDRO_EN_PIN,HIGH);
+digitalWrite(I2C_PORT_EN_PIN,HIGH);
 pinMode(SD_ENABLE_PIN, OUTPUT);
 pinMode(LORA_CS_PIN, OUTPUT);
-pinMode(DEBUG_LED_PIN, OUTPUT);
-pinMode(DHT22_SM_ENABLE_PIN, OUTPUT);
+pinMode(DHT22_SM_ST_EN_PIN, OUTPUT);
+
+
 
 
 
@@ -138,8 +135,8 @@ Serial.println("Turning on I2C: ");
   }
 
 #ifdef ENABLE_MEASURE
-  pinMode(DHT22_SM_ENABLE_PIN, OUTPUT);
-  pinMode(SF_DENDRO_EN_PIN, OUTPUT);
+  pinMode(DHT22_SM_ST_EN_PIN, OUTPUT);
+  pinMode(I2C_PORT_EN_PIN, OUTPUT);
 #endif
 
 #ifdef ENABLE_SDI12_TESTING
@@ -224,15 +221,15 @@ testCS655();
   MEASURE_COMPLETE = 1;
 #endif
 
-  if (DHT22_DONE && SM_DONE)
+  if (DHT22_DONE && SM_DONE && ST_DONE)
   {
-    digitalWrite(DHT22_SM_ENABLE_PIN, LOW); 
+    digitalWrite(DHT22_SM_ST_EN_PIN, LOW); 
   }
-  else if (digitalRead(DHT22_SM_ENABLE_PIN) == LOW)
+  else if (digitalRead(DHT22_SM_ST_EN_PIN) == LOW)
   {
-    digitalWrite(DHT22_SM_ENABLE_PIN, HIGH); 
+    digitalWrite(DHT22_SM_ST_EN_PIN, HIGH); 
     DHTSetup();
-    Serial.println("DHT22, and SM now ON");
+    Serial.println("DHT22, ST and SM now ON");
     Serial.println("******************************************************");
   }
 
@@ -263,10 +260,9 @@ testCS655();
       writeToI2CMuxFiles();
       }
    
-    digitalWrite(SF_DENDRO_EN_PIN, LOW);   
+    digitalWrite(I2C_PORT_EN_PIN, LOW);   
     pinMode(I2C_SCL,INPUT);
     pinMode(I2C_SDA,INPUT);
-     // Serial.println("Turning off Dendro and SF: ");
     
       if(!SDI12_CONNECTED){
  rtc_gpio_hold_dis(GPIO_NUM_5);
@@ -290,6 +286,7 @@ testCS655();
       if (!SDI12_CONNECTED)
       {
         SDI12_DONE = 1;
+        SDI12_Shutdown();
       }
       else
       {

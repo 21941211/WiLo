@@ -63,9 +63,9 @@ void measBat() {
 
  double voltage;
 
-pinMode(BATTERY_ENABLE_PIN, OUTPUT);
+pinMode(BATTERY_LVL_ADC_EN_PIN, OUTPUT);
 
-digitalWrite(BATTERY_ENABLE_PIN, HIGH);
+digitalWrite(BATTERY_LVL_ADC_EN_PIN, HIGH);
 
 delay(100);
 
@@ -132,7 +132,7 @@ Serial.println(" %");
 
 Serial.println("******************************************************");
 
-digitalWrite(BATTERY_ENABLE_PIN, LOW);
+digitalWrite(BATTERY_LVL_ADC_EN_PIN, LOW);
 
 BATT_DONE = 1;
 

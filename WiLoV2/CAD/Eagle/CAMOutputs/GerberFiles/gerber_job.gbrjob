@@ -1,7 +1,7 @@
 {
     "Header": {
         "Comment": "All values are metric (mm)",
-        "CreationDate": "2025-07-03T09:58:44Z",
+        "CreationDate": "2025-07-07T13:25:02Z",
         "GenerationSoftware": {
             "Application": "EAGLE",
             "Vendor": "Autodesk",
@@ -13,7 +13,7 @@
         "BoardThickness": 1.57,
         "LayerNumber": 2,
         "Name": {
-            "ProjectId": "WiLoV4_Added_TPS22917"
+            "ProjectId": "WiLoV2"
         },
         "Owner": "Christopher Erasmus <21941211@sun.ac.za>",
         "Size": {

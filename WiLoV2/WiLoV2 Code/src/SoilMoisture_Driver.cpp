@@ -21,7 +21,7 @@ void SM_Measure()
   long currentMillis = millis();
   if (currentMillis >= (lastMillisSM + 100))
   {
-    arrSM[sampleCounterSM] = analogRead(SOIL_MOISTURE_PIN);
+    arrSM[sampleCounterSM] = analogRead(SM_ADC_PIN);
     lastMillisSM = millis();
     sampleCounterSM++;
   }

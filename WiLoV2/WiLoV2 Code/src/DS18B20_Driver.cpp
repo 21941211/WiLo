@@ -10,7 +10,7 @@ int sampleCounterST = 0;
 long lastMillisST = 0;
 
 // GPIO where the DS18B20 is connected to
-const int oneWireBus = DS1B20_PIN;     
+const int oneWireBus = SOIL_TEMPERATURE_DATA_PIN;     
 
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);

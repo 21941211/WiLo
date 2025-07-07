@@ -385,12 +385,14 @@ int LEDFlash = 0;
   while(!SD.begin(SD_CS_PIN, SPI, 80000000)&&LEDFlash<5)
   {
     Serial.println("Card Mount Failed");
+    pinMode(LED_PIN, OUTPUT);
+    digitalWrite(LED_PIN, LOW);
 
     for (size_t i = 0; i < 2; i++)
     {
-    digitalWrite( DEBUG_LED_PIN, HIGH);
+    digitalWrite( LED_PIN, HIGH);
     delay(20);
-    digitalWrite(DEBUG_LED_PIN,LOW);
+    digitalWrite(LED_PIN,LOW);
     delay(20);
     }
     LEDFlash++;
@@ -429,11 +431,11 @@ listDir(SD, "/", 0);
   Serial.println("Reading loRa keys from file");
   if (!readParametersFromFile(FILE_NAME_SYSPARAMS)) {
     Serial.println("Failed to read parameters from file.");
-    pinMode(DEBUG_LED_PIN,OUTPUT);
+    pinMode(LED_PIN,OUTPUT);
     while (1){
-      digitalWrite(DEBUG_LED_PIN, HIGH);
+      digitalWrite(LED_PIN, HIGH);
       delay(3000);
-      digitalWrite(DEBUG_LED_PIN, LOW);
+      digitalWrite(LED_PIN, LOW);
     }
 //  }
   Serial.println("LoRa keys read successfully");
@@ -453,6 +455,7 @@ listDir(SD, "/", 0);
 
 
    Serial.println("SD Setup complete");
+
 Serial.println("******************************************************");
 }
 
@@ -746,12 +749,14 @@ int LEDFlash = 0;
   while(!SD.begin(SD_CS_PIN, SPI, 80000000)&&LEDFlash<5)
   {
     Serial.println("Card Mount Failed");
+    pinMode(LED_PIN, OUTPUT);
+    digitalWrite(LED_PIN, LOW);
 
     for (size_t i = 0; i < 2; i++)
     {
-    digitalWrite( DEBUG_LED_PIN, HIGH);
+    digitalWrite( LED_PIN, HIGH);
     delay(20);
-    digitalWrite(DEBUG_LED_PIN,LOW);
+    digitalWrite(LED_PIN,LOW);
     delay(20);
     }
     LEDFlash++;
@@ -983,12 +988,14 @@ void WriteToFile(const char *fileName, const char *message)
   while(!SD.begin(SD_CS_PIN, SPI, 80000000))
   {
     Serial.println("Card Mount Failed");
+    pinMode(LED_PIN, OUTPUT);
+    digitalWrite(LED_PIN, LOW);
 
     for (size_t i = 0; i < 2; i++)
     {
-    digitalWrite( DEBUG_LED_PIN, HIGH);
+    digitalWrite( LED_PIN, HIGH);
     delay(20);
-    digitalWrite(DEBUG_LED_PIN,LOW);
+    digitalWrite(LED_PIN,LOW);
     delay(20);
     }
     delay(1000);
