@@ -158,6 +158,7 @@
 <layer number="255" name="routoute" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
+<fusionsync huburn="a.YnVzaW5lc3M6bXlzdW42MzA" projecturn="a.YnVzaW5lc3M6bXlzdW42MzAjMjAyNTAyMjM4ODMzMDQxMDE" f3durn="urn:adsk.wipprod:dm.lineage:psV6jYWNQPCgKiR4xTv3Ug" pcbguid="" lastpulledtime="" lastsyncedchangeguid="" latestrevisionid="c10945ef-5fec-44de-a69c-d2b6e50114ad" lastsyncedrevisionid="c10945ef-5fec-44de-a69c-d2b6e50114ad" lastboardhashguid="86eaf0cd-a7f4-bc5a-0528-7612af35f724" lastpushedtime="2025-07-21T12:59:15Z" linktopcb3d="true"/>
 <plain>
 <wire x1="0" y1="-1.2" x2="90.8" y2="-1.2" width="0" layer="20"/>
 <wire x1="90.8" y1="-1.2" x2="90.8" y2="81.3" width="0" layer="20"/>
@@ -165,29 +166,29 @@
 <wire x1="0" y1="81.4" x2="0" y2="-1.2" width="0" layer="20"/>
 <text x="33.9325" y="6.2225" size="1" layer="26" font="vector" ratio="15" rot="MR0" align="center">WILO V2.0</text>
 <text x="23.5675" y="4.54" size="1" layer="26" font="vector" ratio="15" rot="MR0" align="center">IMPACT - STELLENBOSCH UNIVERSITY</text>
-<text x="6.9215" y="21.59" size="1" layer="25" font="vector" ratio="15" align="center">ON</text>
-<text x="6.5865" y="1.575" size="1" layer="25" font="vector" ratio="15" align="center">OFF</text>
-<text x="82.169" y="0.35575" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">+</text>
-<text x="87.884" y="0.41925" size="1" layer="25" font="vector" ratio="15" align="center">-</text>
-<text x="85.0265" y="0.35575" size="1" layer="25" font="vector" ratio="15" align="center">D</text>
-<text x="2.12725" y="77.88275" size="1" layer="25" font="vector" ratio="15" rot="R90" align="center">+</text>
-<text x="2.19075" y="72.16775" size="1" layer="25" font="vector" ratio="15" rot="R270" align="center">-</text>
-<text x="2.12725" y="75.02525" size="1" layer="25" font="vector" ratio="15" rot="R270" align="center">D</text>
-<text x="56.10225" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">+</text>
-<text x="61.81725" y="0.67325" size="1" layer="25" font="vector" ratio="15" align="center">-</text>
-<text x="58.95975" y="0.60975" size="1" layer="25" font="vector" ratio="15" align="center">D</text>
-<text x="23.27275" y="79.78775" size="1" layer="25" font="vector" ratio="15" align="center">+</text>
-<text x="17.55775" y="79.72425" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">-</text>
-<text x="20.41525" y="79.78775" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">D</text>
-<text x="66.57975" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">+</text>
-<text x="68.48475" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">HP</text>
-<text x="71.34225" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">SCL</text>
-<text x="74.51725" y="0.60975" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">SDA</text>
-<text x="76.73975" y="0.67325" size="1" layer="25" font="vector" ratio="15" align="center">-</text>
+<text x="5.7215" y="22.39" size="2.1844" layer="25" font="vector" ratio="15" align="center">ON</text>
+<text x="6.5865" y="2.275" size="2.1844" layer="25" font="vector" ratio="15" align="center">OFF</text>
+<text x="81.669" y="0.75575" size="1.27" layer="25" font="vector" ratio="15" rot="R180" align="center">+</text>
+<text x="86.684" y="0.61925" size="1.27" layer="25" font="vector" ratio="15" align="center">-</text>
+<text x="84.14425" y="0.8265" size="1.27" layer="25" font="vector" ratio="15" rot="R90" align="center">D</text>
+<text x="2.12725" y="77.88275" size="1.27" layer="25" font="vector" ratio="15" rot="R90" align="center">+</text>
+<text x="2.19075" y="72.16775" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">-</text>
+<text x="2.12725" y="75.02525" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">D</text>
+<text x="56.09025" y="0.80225" size="1" layer="25" font="vector" ratio="15" rot="R270" align="center">+</text>
+<text x="61.38275" y="0.82675" size="1" layer="25" font="vector" ratio="15" rot="R180" align="center">-</text>
+<text x="58.49025" y="0.95975" size="1" layer="25" font="vector" ratio="15" rot="R90" align="center">D</text>
+<text x="23.27275" y="79.78775" size="1.27" layer="25" font="vector" ratio="15" align="center">+</text>
+<text x="17.55775" y="79.72425" size="1.27" layer="25" font="vector" ratio="15" rot="R180" align="center">-</text>
+<text x="20.41525" y="79.78775" size="1.27" layer="25" font="vector" ratio="15" rot="R180" align="center">D</text>
+<text x="65.99025" y="0.97975" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">+</text>
+<text x="68.60975" y="0.41525" size="1.27" layer="25" font="vector" ratio="15" rot="R90" align="center">HP</text>
+<text x="71.19025" y="0.94225" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">SCL</text>
+<text x="73.79025" y="0.91725" size="1.27" layer="25" font="vector" ratio="15" rot="R270" align="center">SDA</text>
+<text x="76.32675" y="0.93975" size="1.27" layer="25" font="vector" ratio="15" rot="R90" align="center">-</text>
 <text x="64.86275" y="61.34475" size="1" layer="25" font="vector" ratio="15" rot="R270" align="center">RFM95W</text>
 <dimension x1="0" y1="-1.7" x2="90.8" y2="-1.7" x3="45.4" y3="-6.983053125" textsize="1.27" textratio="15" layer="20"/>
 <text x="27.8675" y="2.6525" size="1" layer="26" font="vector" ratio="15" rot="MR0" align="center">DESIGNED BY CS ERASMUS</text>
-<text x="72.1325" y="64.6225" size="1" layer="26" font="vector" ratio="15" rot="MR0" align="center">GITHUB</text>
+<text x="72.1325" y="64.6225" size="2.1844" layer="26" font="vector" ratio="15" rot="MR0" align="center">GITHUB</text>
 <dimension x1="-0.5" y1="-1.2" x2="-0.5" y2="81.4" x3="-8.9" y3="40.1" textsize="1.778" layer="20"/>
 </plain>
 <libraries>
@@ -9609,8 +9610,8 @@ Your PCBWay Team
 <attribute name="SPICEPREFIX" value="R" x="142.7875" y="-74.0575" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="68.4925" y="24.3675" size="1" layer="27" font="vector" ratio="15"/>
 </element>
-<element name="S2MINI1" library="S2MINI" package="S2MINI" value="S2MINI" x="36.83" y="69.31" smashed="yes">
-<attribute name="MPN" value="SH2-16G" x="36.83" y="69.31" size="1.778" layer="27" display="off"/>
+<element name="S2MINI1" library="S2MINI" package="S2MINI" override_package3d_urn="urn:adsk.eagle:package:49195459/2" override_package_urn="urn:adsk.eagle:footprint:49195460/1" value="S2MINI" x="36.83" y="69.31" smashed="yes">
+<attribute name="MPN" value="" x="36.83" y="69.31" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="46.0375" y="67.7225" size="1" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="38.1" y="32.48" size="1" layer="27" font="vector" ratio="15"/>
 </element>
@@ -9732,13 +9733,13 @@ Your PCBWay Team
 <attribute name="SPICEPREFIX" value="R" x="-26.5525" y="-11.17" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="66.7925" y="35.185" size="1" layer="27" font="vector" ratio="15" rot="R270"/>
 </element>
-<element name="RFM95W" library="lora-lorawan-modules" package="HOPERF_RFM95W" package3d_urn="urn:adsk.eagle:package:5158926/3" value="HOPERF_RFM95W" x="73.9375" y="67.4925" smashed="yes" rot="R90">
+<element name="RFM95W" library="lora-lorawan-modules" package="HOPERF_RFM95W" package3d_urn="urn:adsk.eagle:package:5158926/3" override_package3d_urn="urn:adsk.eagle:package:49195478/2" override_package_urn="urn:adsk.eagle:footprint:49195480/1" value="HOPERF_RFM95W" x="73.9375" y="67.4925" smashed="yes" rot="R90">
 <attribute name="HEIGHT" value="1.8" x="124.7375" y="113.2125" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="LENGTH" value="16" x="124.7375" y="113.2125" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="RFM95W-868S2" x="73.9375" y="67.4925" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="WIDTH" value="16" x="124.7375" y="113.2125" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="SD_CARD" library="MSD-4-A" package="CUI_MSD-4-A" value="MSD-4-A" x="83.145" y="48.665" smashed="yes" rot="R90">
+<element name="SD_CARD" library="MSD-4-A" package="CUI_MSD-4-A" override_package3d_urn="urn:adsk.eagle:package:49195462/2" override_package_urn="urn:adsk.eagle:footprint:49195464/1" value="MSD-4-A" x="83.145" y="48.665" smashed="yes" rot="R90">
 <attribute name="MANUFACTURER" value="CUI Devices" x="83.145" y="48.665" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MAXIMUM_PACKAGE_HEIGHT" value="2.00mm" x="83.145" y="48.665" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="MSD-4-A" x="83.145" y="48.665" size="1.778" layer="27" rot="R90" display="off"/>
@@ -9933,7 +9934,7 @@ Your PCBWay Team
 <attribute name="NAME" x="23.258" y="28.931" size="1" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="20.058" y="27.329" size="1" layer="27" font="vector" ratio="15"/>
 </element>
-<element name="CN1" library="adafruit" package="USB-MINIB" value="" x="5.6275" y="42.0925" smashed="yes" rot="R270">
+<element name="CN1" library="adafruit" package="USB-MINIB" override_package3d_urn="urn:adsk.eagle:package:49195343/3" override_package_urn="urn:adsk.eagle:footprint:49195346/1" value="" x="5.6275" y="42.0925" smashed="yes" rot="R270">
 <attribute name="MPN" value="690-005-299-043" x="5.6275" y="42.0925" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="NAME" x="10.9775" y="45.4025" size="1" layer="25" font="vector" ratio="15" rot="R270"/>
 <attribute name="VALUE" x="-0.7225" y="45.4025" size="1.27" layer="27" rot="R270"/>
@@ -10052,7 +10053,7 @@ Your PCBWay Team
 <attribute name="SPICEPREFIX" value="R" x="67.9975" y="72.505" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="52.1225" y="71.87" size="1" layer="27" font="vector" ratio="15" rot="R90"/>
 </element>
-<element name="S1" library="GF-123-0054" package="SW_GF-123-0054" value="GF-123-0054" x="6.5405" y="12.446" smashed="yes" rot="R270">
+<element name="S1" library="GF-123-0054" package="SW_GF-123-0054" override_package3d_urn="urn:adsk.eagle:package:49195332/2" override_package_urn="urn:adsk.eagle:footprint:49195334/1" value="GF-123-0054" x="6.5405" y="12.446" smashed="yes" rot="R270">
 <attribute name="MANUFACTURER" value="CW Industries " x="6.5405" y="12.446" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MAXIMUM_PACKAGE_HIEGHT" value="14.96 mm" x="6.5405" y="12.446" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="GF-123-0054" x="6.5405" y="12.446" size="1.778" layer="27" rot="R270" display="off"/>
@@ -10267,35 +10268,35 @@ Your PCBWay Team
 <attribute name="SNAPEDA_LINK" value="https://www.snapeda.com/parts/2N7002/Onsemi/view-part/?ref=snap" x="66.4845" y="15.0495" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="63.9845" y="13.0495" size="1" layer="27" font="vector" ratio="15" rot="SR0" align="top-left"/>
 </element>
-<element name="I2C" library="TBL009V-254-05GY-2GY" package="CUI_TBL009V-254-05GY-2GY" value="TBL009V-254-05GY-2GY" x="66.04" y="10.4775" smashed="yes">
+<element name="I2C" library="TBL009V-254-05GY-2GY" package="CUI_TBL009V-254-05GY-2GY" override_package3d_urn="urn:adsk.eagle:package:49195207/2" override_package_urn="urn:adsk.eagle:footprint:49195208/1" value="TBL009V-254-05GY-2GY" x="66.04" y="10.4775" smashed="yes">
 <attribute name="MANUFACTURER" value="CUI" x="66.04" y="10.4775" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="TBL009V-254-05GY-2GY" x="66.04" y="10.4775" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="76.04" y="12.9425" size="1" layer="25" font="vector" ratio="15"/>
 <attribute name="STANDARD" value="Manufacturer Recommendations" x="66.04" y="10.4775" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="63.34" y="0.3275" size="1" layer="27" font="vector" ratio="15"/>
 </element>
-<element name="SDI-12" library="TBL009V-254-03GY-2GY" package="CUI_TBL009V-254-03GY-2GY" value="TBL009V-254-03GY-2GY" x="56.134" y="10.4775" smashed="yes">
+<element name="SDI-12" library="TBL009V-254-03GY-2GY" package="CUI_TBL009V-254-03GY-2GY" override_package3d_urn="urn:adsk.eagle:package:49195204/2" override_package_urn="urn:adsk.eagle:footprint:49195205/1" value="TBL009V-254-03GY-2GY" x="56.134" y="10.4775" smashed="yes">
 <attribute name="MANUFACTURER" value="CUI" x="56.134" y="10.4775" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="TBL009V-254-03GY-2GY" x="56.134" y="10.4775" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="53.85" y="7.349" size="1" layer="25" font="vector" ratio="15" rot="R90"/>
 <attribute name="STANDARD" value="Manufacturer Recommendations" x="56.134" y="10.4775" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="53.434" y="0.3275" size="1" layer="27" font="vector" ratio="15"/>
 </element>
-<element name="SOIL_TEMP" library="TBL009V-254-03GY-2GY" package="CUI_TBL009V-254-03GY-2GY" value="TBL009V-254-03GY-2GY" x="11.43" y="77.62875" smashed="yes" rot="R270">
+<element name="SOIL_TEMP" library="TBL009V-254-03GY-2GY" package="CUI_TBL009V-254-03GY-2GY" override_package3d_urn="urn:adsk.eagle:package:49195259/2" override_package_urn="urn:adsk.eagle:footprint:49195260/1" value="TBL009V-254-03GY-2GY" x="11.43" y="77.62875" smashed="yes" rot="R270">
 <attribute name="MANUFACTURER" value="CUI" x="11.43" y="77.62875" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="TBL009V-254-03GY-2GY" x="11.43" y="77.62875" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="NAME" x="14.9975" y="70.48375" size="1" layer="25" font="vector" ratio="15" rot="R90"/>
 <attribute name="STANDARD" value="Manufacturer Recommendations" x="11.43" y="77.62875" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="1.28" y="80.32875" size="1" layer="27" font="vector" ratio="15" rot="R270"/>
 </element>
-<element name="SOIL_MOISTURE" library="TBL009V-254-03GY-2GY" package="CUI_TBL009V-254-03GY-2GY" value="TBL009V-254-03GY-2GY" x="23.1775" y="70.8025" smashed="yes" rot="R180">
+<element name="SOIL_MOISTURE" library="TBL009V-254-03GY-2GY" package="CUI_TBL009V-254-03GY-2GY" override_package3d_urn="urn:adsk.eagle:package:49195257/2" override_package_urn="urn:adsk.eagle:footprint:49195258/1" value="TBL009V-254-03GY-2GY" x="23.1775" y="70.8025" smashed="yes" rot="R180">
 <attribute name="MANUFACTURER" value="CUI" x="23.1775" y="70.8025" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MPN" value="TBL009V-254-03GY-2GY" x="23.1775" y="70.8025" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="NAME" x="26.4275" y="69.055" size="1" layer="25" font="vector" ratio="15" rot="R90"/>
 <attribute name="STANDARD" value="Manufacturer Recommendations" x="23.1775" y="70.8025" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="VALUE" x="25.8775" y="80.9525" size="1" layer="27" font="vector" ratio="15" rot="R180"/>
 </element>
-<element name="DHT22" library="TBL009V-254-03GY-2GY" package="CUI_TBL009V-254-03GY-2GY" value="TBL009V-254-03GY-2GY" x="81.5975" y="10.4775" smashed="yes">
+<element name="DHT22" library="TBL009V-254-03GY-2GY" package="CUI_TBL009V-254-03GY-2GY" override_package3d_urn="urn:adsk.eagle:package:49195212/2" override_package_urn="urn:adsk.eagle:footprint:49195213/1" value="TBL009V-254-03GY-2GY" x="81.5975" y="10.4775" smashed="yes">
 <attribute name="MANUFACTURER" value="CUI" x="81.5975" y="10.4775" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="TBL009V-254-03GY-2GY" x="81.5975" y="10.4775" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="84.295" y="12.9425" size="1" layer="25" font="vector" ratio="15"/>
@@ -10321,7 +10322,7 @@ Your PCBWay Team
 <attribute name="NAME" x="47.1535" y="8.29675" size="1" layer="25" font="vector" ratio="15" rot="R180"/>
 <attribute name="VALUE" x="48.106" y="12.77125" size="1" layer="27" font="vector" ratio="15" rot="R180"/>
 </element>
-<element name="R52" library="rcl@2" package="RTRIM3296W" value="10k" x="41.3385" y="15.8525" smashed="yes" rot="R90">
+<element name="R52" library="rcl@2" package="RTRIM3296W" override_package3d_urn="urn:adsk.eagle:package:49195267/2" override_package_urn="urn:adsk.eagle:footprint:49195269/1" value="10k" x="41.3385" y="15.8525" smashed="yes" rot="R90">
 <attribute name="MPN" value="3296W-1-103RLF" x="41.3385" y="15.8525" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="40.5215" y="12.5975" size="1" layer="25" font="vector" ratio="15"/>
 <attribute name="POPULARITY" value="3" x="88.3285" y="90.7825" size="1.778" layer="27" rot="R90" display="off"/>
@@ -10352,22 +10353,22 @@ Your PCBWay Team
 <attribute name="STANDARD" value="Manufacturer Recommendations" x="38.09525" y="5.72125" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="33.94525" y="1.72125" size="1" layer="27" font="vector" ratio="15" align="top-left"/>
 </element>
-<element name="3V3" library="adafruit" package="1X03" value="" x="44.86275" y="77.0255" smashed="yes">
+<element name="3V3" library="adafruit" package="1X03" override_package3d_urn="urn:adsk.eagle:package:49195324/3" override_package_urn="urn:adsk.eagle:footprint:49195325/1" value="" x="44.86275" y="77.0255" smashed="yes">
 <attribute name="MPN" value="61300311121" x="44.86275" y="77.0255" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="37.48405" y="76.9493" size="1" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="41.05275" y="73.8505" size="1.27" layer="27"/>
 </element>
-<element name="GND" library="adafruit" package="1X03" value="" x="44.8945" y="74.3585" smashed="yes">
+<element name="GND" library="adafruit" package="1X03" override_package3d_urn="urn:adsk.eagle:package:49195326/2" override_package_urn="urn:adsk.eagle:footprint:49195327/1" value="" x="44.8945" y="74.3585" smashed="yes">
 <attribute name="MPN" value="61300311121" x="44.8945" y="74.3585" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="37.8333" y="73.9648" size="1" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="41.0845" y="71.1835" size="1.27" layer="27"/>
 </element>
-<element name="4.5V-12V" library="adafruit" package="1X03" value="" x="47.3075" y="3.4925" smashed="yes" rot="R180">
+<element name="4.5V-12V" library="adafruit" package="1X03" override_package3d_urn="urn:adsk.eagle:package:49195316/2" override_package_urn="urn:adsk.eagle:footprint:49195317/1" value="" x="47.3075" y="3.4925" smashed="yes" rot="R180">
 <attribute name="MPN" value="61300311121" x="47.3075" y="3.4925" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="NAME" x="44.1063" y="0.8363" size="1" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="51.1175" y="6.6675" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="GND5" library="adafruit" package="1X03" value="" x="47.33925" y="6.00075" smashed="yes" rot="R180">
+<element name="GND5" library="adafruit" package="1X03" override_package3d_urn="urn:adsk.eagle:package:49195312/2" override_package_urn="urn:adsk.eagle:footprint:49195313/1" value="" x="47.33925" y="6.00075" smashed="yes" rot="R180">
 <attribute name="MPN" value="61300311121" x="47.33925" y="6.00075" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="NAME" x="51.64455" y="5.37055" size="1" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="51.14925" y="9.17575" size="1.27" layer="27" rot="R180"/>
@@ -10597,13 +10598,13 @@ Your PCBWay Team
 <attribute name="SPICEPREFIX" value="C" x="58.7375" y="19.685" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="VALUE" x="60.0075" y="22.225" size="1" layer="27" font="vector" ratio="15" rot="R180"/>
 </element>
-<element name="BATT" library="B2B-PH-K-S" package="JST_B2B-PH-K-S" value="B2B-PH-K-S" x="3.81" y="31.4325" smashed="yes" rot="R90">
+<element name="BATT" library="B2B-PH-K-S" package="JST_B2B-PH-K-S" override_package3d_urn="urn:adsk.eagle:package:49195373/2" override_package_urn="urn:adsk.eagle:footprint:49195375/1" value="B2B-PH-K-S" x="3.81" y="31.4325" smashed="yes" rot="R90">
 <attribute name="MANUFACTURER" value="JST" x="3.81" y="31.4325" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="B2B-PH-K-S" x="3.81" y="31.4325" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="5.74" y="28.165" size="1" layer="25" font="vector" ratio="15" rot="R180"/>
 <attribute name="VALUE" x="8.11" y="28.2325" size="1" layer="27" font="vector" ratio="15" rot="R90"/>
 </element>
-<element name="SOLAR" library="B2B-PH-K-S" package="JST_B2B-PH-K-S" value="B2B-PH-K-S" x="31.115" y="78.4225" smashed="yes">
+<element name="SOLAR" library="B2B-PH-K-S" package="JST_B2B-PH-K-S" override_package3d_urn="urn:adsk.eagle:package:49195396/2" override_package_urn="urn:adsk.eagle:footprint:49195397/1" value="B2B-PH-K-S" x="31.115" y="78.4225" smashed="yes">
 <attribute name="MANUFACTURER" value="JST" x="31.115" y="78.4225" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="B2B-PH-K-S" x="31.115" y="78.4225" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="33.3625" y="75.79" size="1" layer="25" font="vector" ratio="15" rot="R180"/>
@@ -12992,6 +12993,11 @@ of those online libraries will not be understood (or retained)
 with this version.
 </note>
 <note version="8.3" severity="warning">
+Since Version 8.3, EAGLE supports Fusion synchronisation.
+This feature will not be available in this version and saving
+the document will break the link to the Fusion PCB feature.
+</note>
+<note version="8.3" severity="warning">
 Since Version 8.3, EAGLE supports URNs for individual library
 assets (packages, symbols, and devices). The URNs of those assets
 will not be understood (or retained) with this version.
@@ -13004,6 +13010,11 @@ packages will not be understood (or retained) with this version.
 <note version="9.5" severity="warning">
 Since Version 9.5, EAGLE supports persistent groups with
 schematics, and board files. Those persistent groups
+will not be understood (or retained) with this version.
+</note>
+<note version="9.4" severity="warning">
+Since Version 9.4, EAGLE supports the overriding of 3D packages
+in schematics and board files. Those overridden 3d packages
 will not be understood (or retained) with this version.
 </note>
 </compatibility>

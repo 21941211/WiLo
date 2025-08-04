@@ -9,7 +9,7 @@
 #define FILE_NAME_I2C_MUX_DENDROMETER "/I2C_Mux_Dendrometer_Measurements.csv"
 #define FILE_NAME_SYSPARAMS "/parameters.txt"
 #define FILE_NAME_PAYLOAD_CONFIG "/PayloadConfig.txt"
-#define FILE_NAME_TIME "/Time.csv"
+#define FILE_NAME_TIME "/DateTime.csv"
 
 
 //LoRa Pins

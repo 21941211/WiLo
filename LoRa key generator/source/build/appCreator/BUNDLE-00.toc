@@ -1,0 +1,3 @@
+([('appCreator',
+   '/Users/chris/Documents/IMPACT OAL/WiLo/LoRa key generator/dist/appCreator',
+   'EXECUTABLE')],)
