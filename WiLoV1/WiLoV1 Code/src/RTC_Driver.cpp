@@ -23,9 +23,9 @@ uint8_t setupRTC() {
     return 0;
     //while (1);
   }
- return 1;
   // Uncomment the line below to set the time on the DS3231 module
-  // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  return 1;
 }
 
 
@@ -51,7 +51,24 @@ void printRTCLoop() {
     }
 }
 
-void setRTCFromSerial() {
+String getRTCDateTime() {
+  DateTime now = rtc.now();
+
+  char buffer[25];
+  sprintf(buffer, "%04d/%02d/%02d %02d:%02d:%02d",
+          now.year(),
+          now.month(),
+          now.day(),
+          now.hour(),
+          now.minute(),
+          now.second());
+
+  return String(buffer);
+}
+
+
+void setRTCFromSerial() 
+{
   Serial.println("Enter date and time: YYYY-MM-DD HH:MM:SS");
 
   while (!Serial.available()) {

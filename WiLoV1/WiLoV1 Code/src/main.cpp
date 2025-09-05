@@ -66,9 +66,7 @@ void setup()
 
   Serial.println("Starting");
 
-//setupRTC();
-
-  
+setupRTC();
 
 setCpuFrequencyMhz(40);
 delay(500);
@@ -208,7 +206,6 @@ Serial.println("Turning on I2C: ");
 //setSDI12DummyValues(SDI12_DD_90);
 
 
-
 }
 
 void loop()
@@ -217,7 +214,6 @@ void loop()
 #ifdef ENABLE_CS655_TESTING
 testCS655();
 #endif
-
 
 #ifndef ENABLE_CS655_TESTING
 #ifndef ENABLE_SD
@@ -269,8 +265,8 @@ testCS655();
      // Serial.println("Turning off Dendro and SF: ");
     
       if(!SDI12_CONNECTED){
- rtc_gpio_hold_dis(GPIO_NUM_5);
-    gpio_reset_pin(GPIO_NUM_5);
+        rtc_gpio_hold_dis(GPIO_NUM_5);
+        gpio_reset_pin(GPIO_NUM_5);
       }
      
      // Serial.println("This is test code");
@@ -319,6 +315,7 @@ testCS655();
 
     if (BATT_DONE && SM_DONE && ST_DONE && DENDRO_DONE && SF_DONE && SDI12_DONE&&DHT22_DONE)
     {
+      
       Serial.println("All Measurements Done");
       Serial.println("******************************************************");
 
@@ -327,10 +324,10 @@ testCS655();
   }
   else
   {
-
+    
     if (!SDWRITE_DONE)
     {
-#ifdef ENABLE_SD
+      #ifdef ENABLE_SD
       wilo.bootCount = bootCount;
       writeToSD();
 

@@ -1,4 +1,5 @@
 #include "SD_Driver.h"
+#include "RTC_Driver.h"
 #include <vector>
 #include <algorithm>
 
@@ -445,7 +446,7 @@ listDir(SD, "/", 0);
  
   if (!SD.exists(fileName))
   {
-    writeFile(SD, fileName, "Dendrometer,Air Temperature, Air Humidity,Soil temperature,SM orPyro,Battery,SF T1 Before,SF T2 Before,SF T1 During,SF T2 During,SF T1 After,SF T2 After,Boot count\n");
+    writeFile(SD, fileName, "Timestamp,Dendrometer,Air Temperature,Air Humidity,Soil temperature,SM or Pyro,Battery,SF T1 Before,SF T2 Before,SF T1 During,SF T2 During,SF T1 After,SF T2 After,Boot count\n");
   }
 
   Serial.printf("Total space: %lluMB\n", SD.totalBytes() / (1024 * 1024));
@@ -473,8 +474,8 @@ void writeToSD()
 //         Serial.println(wilo.wiloConfigBytes[i]);
 //     }
 // }
-
-   String defaultWiLoData = String(wilo.Dendro) + "," + String(wilo.AT) + "," + String(wilo.RH) + "," + String(wilo.ST)+ "," + String(wilo.SM) 
+   String RTCdata = getRTCDateTime();
+   String defaultWiLoData = RTCdata + "," + String(wilo.Dendro) + "," + String(wilo.AT) + "," + String(wilo.RH) + "," + String(wilo.ST)+ "," + String(wilo.SM) 
   + ","+  String(wilo.batt) + "," + String(wilo.SF_T1_Before) + "," + String(wilo.SF_T2_Before) + "," + String(wilo.SF_T1_During) + "," + String(wilo.SF_T2_During)
   + "," + String(wilo.SF_T1_After) + "," + String(wilo.SF_T2_After)  + "," + String(float(wilo.bootCount)/100.0);
 

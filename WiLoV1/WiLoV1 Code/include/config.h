@@ -44,7 +44,7 @@
 #define HEAT_PIN_SWITCH 11
 #define SF_DENDRO_EN_PIN GPIO_NUM_2
 
-// I2C Pins
+// I2C Pins (GPIO)
 #define I2C_SDA 17
 #define I2C_SCL 21
 
