@@ -26,6 +26,8 @@ void bubbleSort(float array[], int size)
 
 float trimmedMean(float arr[], int size, int trimCount)
 {
+
+    bubbleSort(arr, size);
     // Calculate the start index of the center values
     int start_index = size / 2 - trimCount / 2;
 

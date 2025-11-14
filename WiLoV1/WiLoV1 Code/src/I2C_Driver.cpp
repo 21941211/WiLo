@@ -51,7 +51,8 @@ I2C_Device_Struct i2cDevice[9];
 
 
 void I2C_Mux_SelectPort(uint8_t port){
-    I2CMultiplexer.selectPort(port);
+  I2CMultiplexer.begin();
+  I2CMultiplexer.selectPort(port);
 }
 
 //Function that scans WiLo I2C addresses and stores them in the i2cDevice struct if found
@@ -130,7 +131,7 @@ Serial.println("Scanning I2C MUX ports...");
   for(uint8_t ScannedPort = 0; ScannedPort < 8; ScannedPort++)
   {
      
-    Serial.print("Port:");
+    Serial.print("Scanning Port:");
     Serial.println(ScannedPort);
     uint8_t *dev = I2CMultiplexer.scan(ScannedPort);
     // uint8_t SensorCount[2] = {0, 0};
@@ -196,6 +197,15 @@ bool checkPortConnection(uint8_t port)
     return false;
   }
 }
+
+uint8_t checkRTC_PortNum(){
+  for (uint8_t port = 0; port <8 ; port++){
+    if(i2cDevice[port].sensorType == RTC)
+    return port;
+  } 
+  return 9;
+}
+
 
 // Function to initialize the I2C MUX structs
 void initialiseI2CMuxStructs(){

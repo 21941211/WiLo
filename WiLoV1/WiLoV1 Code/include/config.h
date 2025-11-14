@@ -21,6 +21,11 @@
 #define FILE_NAME_TIME "/Time.csv"
 
 
+//RTC Defines
+#define GET_DATE 0
+#define GET_TIME 1
+#define GET_DATETIME 2
+
 //DHT22 and SM enable pin
 #define DHT22_SM_ENABLE_PIN 11
 
@@ -71,6 +76,8 @@
 
 #define SD_ENABLE_PIN 4
 
+#define SAPFLOW_SAMPLE_SIZE 10
+
 // Number of samples taken for each dendrometer
 #define DENDRO_SAMPLE_SIZE 10
 
@@ -91,3 +98,6 @@
 
 //WiFi Timeout
 #define WIFI_TIMEOUT 15000 // Timeout for WiFi connection in milliseconds
+
+
+//#define WIFI_ENABLED

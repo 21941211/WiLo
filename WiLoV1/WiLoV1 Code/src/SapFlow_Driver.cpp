@@ -8,6 +8,9 @@ HDC2080 sensor2(ADDR2);
 float temp1;
 float temp2;
 
+float arrTemp1Median[SAPFLOW_SAMPLE_SIZE];
+float arrTemp2Median[SAPFLOW_SAMPLE_SIZE];
+
 
 uint8_t HEATER_STATE = BEFORE_HEAT;
 
@@ -44,12 +47,13 @@ boolean referenceTempRecorded = false;
 
 
 void SFSetup(){
-pinMode(HEAT_PIN_SWITCH, OUTPUT);
-digitalWrite(HEAT_PIN_SWITCH, LOW);
-
+// pinMode(HEAT_PIN_SWITCH, OUTPUT);
+// digitalWrite(HEAT_PIN_SWITCH, LOW);
 
 //pinMode(SF_DENDRO_EN_PIN,OUTPUT);
+if(!digitalRead(SF_DENDRO_EN_PIN)){
 digitalWrite(SF_DENDRO_EN_PIN,HIGH);
+}
 
 //delay(5000);
 
@@ -67,7 +71,7 @@ digitalWrite(SF_DENDRO_EN_PIN,HIGH);
      // Serial.print("Sapflow sensor exists on port: ");
      // Serial.println(port);
       I2C_Mux_SelectPort(port);
-      delay(100);
+      delay(50);
       sensor.begin();
       sensor2.begin();
 
@@ -76,14 +80,14 @@ digitalWrite(SF_DENDRO_EN_PIN,HIGH);
       sensor2.reset();
 
   // Configure Measurements
-  sensor.setMeasurementMode(TEMP_AND_HUMID); // Set measurements to temperature and humidity
-  sensor2.setMeasurementMode(TEMP_AND_HUMID);
-  sensor.setRate(ONE_HZ); // Set measurement frequency to 1 Hz
-  sensor2.setRate(ONE_HZ);
+  sensor.setMeasurementMode(TEMP_ONLY); // Set measurements to temperature and humidity
+  sensor2.setMeasurementMode(TEMP_ONLY);
+  sensor.setRate(TWO_HZ); // Set measurement frequency to 2 Hz
+  sensor2.setRate(TWO_HZ);
   sensor.setTempRes(FOURTEEN_BIT);
   sensor2.setTempRes(FOURTEEN_BIT);
-  sensor.setHumidRes(FOURTEEN_BIT);
-  sensor2.setHumidRes(FOURTEEN_BIT);
+  // sensor.setHumidRes(FOURTEEN_BIT);
+  // sensor2.setHumidRes(FOURTEEN_BIT);
 
   //begin measuring
   sensor.triggerMeasurement();
@@ -95,7 +99,7 @@ digitalWrite(SF_DENDRO_EN_PIN,HIGH);
   }
   }else if(wilo.sfconnected){
         Serial.print("Sapflow sensor exists on default ");
-      delay(100);
+      //delay(100);
       sensor.begin();
       sensor2.begin();
 
@@ -104,10 +108,10 @@ digitalWrite(SF_DENDRO_EN_PIN,HIGH);
       sensor2.reset();
 
   // Configure Measurements
-  sensor.setMeasurementMode(TEMP_AND_HUMID); // Set measurements to temperature and humidity
-  sensor2.setMeasurementMode(TEMP_AND_HUMID);
-  sensor.setRate(ONE_HZ); // Set measurement frequency to 1 Hz
-  sensor2.setRate(ONE_HZ);
+  sensor.setMeasurementMode(TEMP_ONLY); // Set measurements to temperature and humidity
+  sensor2.setMeasurementMode(TEMP_ONLY);
+  sensor.setRate(TWO_HZ); // Set measurement frequency to 1 Hz
+  sensor2.setRate(TWO_HZ);
   sensor.setTempRes(FOURTEEN_BIT);
   sensor2.setTempRes(FOURTEEN_BIT);
   sensor.setHumidRes(FOURTEEN_BIT);
@@ -151,14 +155,7 @@ void SF_Measure(){
     startHP = sampleCounter;
     previousHeaterOnTime = currentMillis;
   }
-  // //turn on heating element every 30 minutes
-  // else if (digitalRead(HEAT_PIN_SWITCH) == LOW && currentMillis - millisStartReferenceTemp >= 1800000)
-  // {
-  //   previousMillis = 0;
-  //   previousHeaterOnTime = 0;
-  //   millisStartReferenceTemp = 0;
-  // }
-
+ 
   //turn off heating element after it has been on for >= 15 seconds
   if (digitalRead(SDI12_EN_PIN) == HIGH && currentMillis - millisStartHeatPulse >= SAMPLE_TIME_DURING_HP)
   {
@@ -195,20 +192,48 @@ void SF_Measure(){
    SF_DONE = 1;
      return;}
 
-  if (millis() - tempSensorTimer >= 1000)
+  if (millis() - tempSensorTimer >= 550)
   {
 
     if(wilo.i2cDeviceType==I2C_MUX){
+
+  Wire.beginTransmission(I2C_MUX_ADDR);
+  if (Wire.endTransmission() == 0) {
+    // Serial.println("I2C MUX found at address: " + String(I2C_MUX_ADDR, HEX));
+    
+  }
+      
+    
 for (int port = 0; port < 8; port++)
       {
       
         if (i2cDevice[port].sensorType == SAPFLOW_SENSOR)
         {
+         
           I2C_Mux_SelectPort(port);
-          //delay(50);
+          delay(50);
           
-          temp1 = sensor.readTemp();
-          temp2 = sensor2.readTemp();
+          for(uint8_t sample =0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
+            arrTemp1Median[sample] = sensor.readTemp();
+            arrTemp2Median[sample] = sensor2.readTemp();
+            //delay(20);
+          }
+
+          temp1 = trimmedMean(arrTemp1Median, SAPFLOW_SAMPLE_SIZE,5);
+          temp2 = trimmedMean(arrTemp2Median, SAPFLOW_SAMPLE_SIZE,5);
+
+         // Serial.println("Getting DateTime from RTC...");
+          String SFDate  = getDateTimeRTC(GET_DATE); // Get DATE
+          String SFTime = getDateTimeRTC(GET_TIME); // Get TIME
+
+          SFSetup();
+
+          std::string temp1Str = std::to_string(temp1);
+          std::string temp2Str = std::to_string(temp2);
+
+          std::string BootCountStr = std::to_string(bootCount);
+
+        
 
           Serial.print("Measurement on port: ");
           Serial.println(port);
@@ -218,7 +243,13 @@ for (int port = 0; port < 8; port++)
           Serial.println(temp2);
           Serial.print(" Heater State: ");
           Serial.println(HEATER_STATE);
+          Serial.println("Timestamp: " + SFDate + " " + SFTime);
 
+
+          String SDLine = SFDate + "," + SFTime + "," + String(temp1Str.c_str()) + "," + String(temp2Str.c_str()) + "," + String(HEATER_STATE).c_str()+ "," + BootCountStr.c_str();
+          writeToMuxFile(port, SAPFLOW_SENSOR, SDLine.c_str());
+
+  
         passValuesToStruct(port, temp1, temp2, HEATER_STATE);
         }
         else
@@ -228,10 +259,18 @@ for (int port = 0; port < 8; port++)
         }
       }
     }else {
-        
-          temp1 = sensor.readTemp();
-          temp2 = sensor2.readTemp();
 
+    
+        
+           for(uint8_t sample =0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
+            arrTemp1Median[sample] = sensor.readTemp();
+            arrTemp2Median[sample] = sensor2.readTemp();
+          }
+
+          temp1 = trimmedMean(arrTemp1Median, SAPFLOW_SAMPLE_SIZE,5);
+          temp2 = trimmedMean(arrTemp2Median, SAPFLOW_SAMPLE_SIZE,5);
+
+       
           Serial.print("Measurement on default port: ");
           Serial.print("Sensor 1 Temperature (C): ");
           Serial.println(temp1);
@@ -241,6 +280,8 @@ for (int port = 0; port < 8; port++)
           Serial.println(HEATER_STATE);
 
           passValuesToStructDefaultWilo(temp1, temp2, HEATER_STATE);
+
+          
           
     }
 
@@ -260,117 +301,51 @@ for (int port = 0; port < 8; port++)
    }
   
 
-// void testRead(){
-//    temp1 = sensor.readTemp();
-//     Serial.print("Sensor 1 Temperature (C): ");
-//     Serial.print(temp1);
-//     temp2 = sensor2.readTemp();
-//     Serial.print(" Sensor 2 Temperature (C): ");
-// }
+void SFtestRead(){
+
+  if (!digitalRead(SF_DENDRO_EN_PIN))
+  {
+   digitalWrite(SF_DENDRO_EN_PIN,HIGH);
+   delay(100);
+  }
+  
 
 
 
 
+    for (int port = 0; port < 8; port++)
+      {
+      
+        if (i2cDevice[port].sensorType == SAPFLOW_SENSOR)
+        {
+          I2C_Mux_SelectPort(port);
+          //delay(50);
+        
 
-// float calculateHPV(const std::vector<float>& arrSapflowT1, const std::vector<float>& arrSapflowT2, uint8_t StartHP, uint8_t endHP) {
-//     // Check if the Start and End indices are within the bounds of the vectors
-//     if (StartHP >= arrSapflowT1.size() || endHP >= arrSapflowT1.size() || StartHP > endHP) {
-//         return -1.0f;  // Return an error value if indices are out of bounds or invalid
-//     }
+          for(uint8_t sample =0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
+            arrTemp1Median[sample] = sensor.readTemp();
+            arrTemp2Median[sample] = sensor2.readTemp();
+          }
 
-//     size_t dataSize = arrSapflowT1.size();
+
+
+          temp1 = trimmedMean(arrTemp1Median, SAPFLOW_SAMPLE_SIZE,5);
+          temp2 = trimmedMean(arrTemp2Median, SAPFLOW_SAMPLE_SIZE,5);
 
   
-//     for (size_t i = 0; i < StartHP; ++i) {
-//         avgT1Before += arrSapflowT1[i];
-//         avgT2Before += arrSapflowT2[i];
-//     }
-//     avgT1Before /= StartHP;
-//     avgT2Before /= StartHP;
+          Serial.print("Measurement on port: ");
+          Serial.println(port);
+          Serial.print("Sensor 1 Temperature (C): ");
+          Serial.println(temp1);
+          Serial.print(" Sensor 2 Temperature (C): ");
+          Serial.println(temp2);
+        }
+        else
+        {
+          Serial.println("No saplfow sensor connected");
+         
+        }
+}
+}
 
 
-//     Serial.println("Avg T1 Before:");
-//     Serial.println(avgT1Before);
-//     Serial.println("Avg T2 Before:");
-//     Serial.println(avgT2Before);
-
-//     // Calculate average temperature for the "during" heat pulse period
-
-    
-//     for (size_t i = StartHP; i <= endHP; ++i) {
-//         avgT1During += arrSapflowT1[i];
-//         avgT2During += arrSapflowT2[i];
-//     }
-//     avgT1During /= (endHP - StartHP + 1);
-//     avgT2During /= (endHP - StartHP + 1);
-
-//     Serial.println("Avg T1 During:");
-//     Serial.println(avgT1During);
-//     Serial.println("Avg T2 During:");
-//     Serial.println(avgT2During);
-
-//     // Calculate average temperature for the "after" heat pulse period
-//       // Calculate average temperature for the "before" heat pulse period (baseline)
-  
-//     for (size_t i = endHP + 1; i < dataSize; ++i) {
-//         avgT1After += arrSapflowT1[i];
-//         avgT2After += arrSapflowT2[i];
-//     }
-//     avgT1After /= (dataSize - endHP - 1);
-//     avgT2After /= (dataSize - endHP - 1);
-
-// Serial.println("Avg T1 After:");
-//     Serial.println(avgT1After);
-//     Serial.println("Avg T2 After:");
-//     Serial.println(avgT2After);
-
-//     // // Calculate temperature differences for each period
-//     // float deltaT1Before = avgT1During - avgT1Before;
-//     // float deltaT2Before = avgT2During - avgT2Before;
-
-//     // float deltaT1During = avgT1During - avgT1Before;  // Calculate difference for "during" period
-//     // float deltaT2During = avgT2During - avgT2Before;  // Calculate difference for "during" period
-
-//     // float deltaT1After = avgT1After - avgT1During;
-//     // float deltaT2After = avgT2After - avgT2During;
-
-
-//     float deltaT1AfterBefore = avgT1After - avgT1Before;
-//     float deltaT2AfterBefore = avgT2After - avgT2Before;
-
-//     Serial.println("Delta T1 After minus Before:");
-//     Serial.println(deltaT1AfterBefore);
-//     Serial.println("Delta T2 After minus Before:");
-//     Serial.println(deltaT2AfterBefore);
-
-
-//     //Marshall formula values
-// float k = 0.25; //mm^2
-// float x  = 6.0; // 6 mm 
-
-//     float k_over_x = k / x;
-
-//     Serial.println("k/x:");
-//     Serial.println(k_over_x);
-
-//     float Calc_HPV = 0.0f;
-
-
-// if (avgT1Before == -40.0f || avgT2Before == -40.0f || avgT1During == -40.0f || avgT2During == -40.0f || avgT1After == -40.0f || avgT2After == -40.0f){
-//    Serial.println("Sapflow sensor not connected or faulty");
-//     Calc_HPV = 1111.11f;
-//     avgT1Before = 1111.11f;
-//     avgT2Before = 1111.11f;
-//     avgT1During = 1111.11f;
-//     avgT2During = 1111.11f;
-//     avgT1After = 1111.11f;
-//     avgT2After = 1111.11f;
-//     deltaT1AfterBefore = 1111.11f;
-//     deltaT2AfterBefore = 1111.11f;
-
-//    } else{
-//     Calc_HPV = k_over_x * (log( deltaT2AfterBefore/deltaT1AfterBefore)) * 3600.0; //mm/h
-//    }
- 
-//     return Calc_HPV;
-// }

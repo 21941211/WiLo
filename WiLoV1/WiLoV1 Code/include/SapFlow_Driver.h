@@ -1,3 +1,5 @@
+
+#include "SD_Driver.h"
 #include <HDC2080.h>
 #include <Wire.h>
 #include "config.h"
@@ -9,6 +11,8 @@
 #include "debug.h"
 #include "I2C_Driver.h"
 
+
+
 #define ADDR 0x40
 #define ADDR2 0x41
 
@@ -18,7 +22,8 @@
 
 void SFSetup();
 void SF_Measure();
-void testRead();
+void SFtestRead();
+
 //float calculateHPV(const std::vector<float>& arrSapflowT1, const std::vector<float>& arrSapflowT2, uint8_t StartHP, uint8_t endHP) ;
 
 

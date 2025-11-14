@@ -63,7 +63,7 @@
 #define RTC 4
 
 
-
+uint8_t checkRTC_PortNum();
 void I2Csetup();
 void I2CReadWrite();
 void I2C_Mux_SelectPort(uint8_t port);

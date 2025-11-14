@@ -1,3 +1,6 @@
+#ifndef SD_DRIVER_H
+#define SD_DRIVER_H
+
 #include "Arduino.h"
 #include "FS.h"
 #include "SD.h"
@@ -52,3 +55,7 @@ void writeToPayloadConfigFile() ;
 bool readLastPayloadConfigBytes(uint8_t *outBytes);
 void reducePayload(uint8_t sdi12Status);
 String getFileNameSDI12();
+void writeToMuxFile(int port, uint8_t sensorType, const char *message);
+void createFileBasic(const char* fileName, const char* header);
+
+#endif

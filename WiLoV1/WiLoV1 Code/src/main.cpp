@@ -38,9 +38,12 @@ void setup()
   digitalWrite(GPIO_NUM_5, LOW);
 
 
-  Serial.begin(115200);
-  delay(500);
 
+
+  Serial.begin(115200);
+  delay(2000);
+
+#ifdef WIFI_ENABLED
   if (!OTA_Window_Missed)
   {
     if (setupOTA()){ 
@@ -63,6 +66,8 @@ void setup()
     
   }
   }
+
+  #endif
 
   Serial.println("Starting");
 
@@ -101,6 +106,12 @@ pinMode(DEBUG_LED_PIN, OUTPUT);
 pinMode(DHT22_SM_ENABLE_PIN, OUTPUT);
 
 
+//  SDI12_Setup();
+//   SDI12_CONNECTED = SDI12_Check();
+//   SDI12_SETUP_COMPLETE = 1;
+
+//   while(1);
+
 
 #ifdef ENABLE_SD
 Serial.println("Initalising SD Card: ");
@@ -111,13 +122,17 @@ Serial.println("Initalising SD Card: ");
 
 #endif
 
-
+pinMode(SF_DENDRO_EN_PIN,OUTPUT);
+pinMode(SDI12_EN_PIN,OUTPUT);
+digitalWrite(SF_DENDRO_EN_PIN,HIGH);
 Serial.println("Turning on I2C: ");
 //Setup all I2C Devices
  initialiseI2CMuxStructs();
   I2Csetup();
   dendroSetup();
-  SFSetup();
+
+  // SFSetup();  MOVED DOWN
+  // delay(1000);
 
 
   printPayloadConfig();
@@ -208,7 +223,12 @@ Serial.println("Turning on I2C: ");
 //setSDI12DummyValues(SDI12_DD_90);
 
 
-
+SFSetup();
+delay(1000);
+// while(1){
+// SFtestRead();
+// delay(1000);
+// }
 }
 
 void loop()
@@ -259,10 +279,7 @@ testCS655();
     if (DENDRO_DONE && SF_DONE)
     {
   
-      if(wilo.i2cDeviceType==I2C_MUX){
-      writeToI2CMuxFiles();
-      }
-   
+     
     digitalWrite(SF_DENDRO_EN_PIN, LOW);   
     pinMode(I2C_SCL,INPUT);
     pinMode(I2C_SDA,INPUT);
@@ -285,7 +302,7 @@ testCS655();
         SDI12_SETUP_COMPLETE = 1;
       }
 
-      //while(1);
+     
 
       if (!SDI12_CONNECTED)
       {
@@ -307,6 +324,7 @@ testCS655();
             SDI12_DONE = 1;
             Serial.println("SDI12 Measurements Done");
           }
+          break; 
           case 2:
           if(testCS655()) {
              SDI12_DONE = 1;
@@ -332,6 +350,9 @@ testCS655();
     {
 #ifdef ENABLE_SD
       wilo.bootCount = bootCount;
+      if(wilo.i2cDeviceType==I2C_MUX){
+      writeToI2CMuxFiles();
+      }
       writeToSD();
 
       if (SDI12_CONNECTED)

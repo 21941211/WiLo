@@ -98,10 +98,14 @@ void SDI12_Setup()
 {
 
 
+ pinMode(SDI12_EN_PIN, OUTPUT);
 
-  pinMode(SDI12_EN_PIN, OUTPUT);
-  digitalWrite(SDI12_EN_PIN, HIGH);
+if(!digitalRead(SDI12_EN_PIN)){
+ digitalWrite(SDI12_EN_PIN, HIGH);
   delay(500);
+}
+ 
+ 
 
 
   rtc_gpio_hold_dis(GPIO_NUM_5);

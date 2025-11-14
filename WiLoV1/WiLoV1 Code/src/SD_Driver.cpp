@@ -463,16 +463,7 @@ void writeToSD()
 
   SDSetup();
 
-  
   writeToPayloadConfigFile();
-
-  
-// if (readLastPayloadConfigBytes(wilo.wiloConfigBytes)) {
-//     Serial.println("Decoded bytes:");
-//     for (int i = 0; i < 3; ++i) {
-//         Serial.println(wilo.wiloConfigBytes[i]);
-//     }
-// }
 
    String defaultWiLoData = String(wilo.Dendro) + "," + String(wilo.AT) + "," + String(wilo.RH) + "," + String(wilo.ST)+ "," + String(wilo.SM) 
   + ","+  String(wilo.batt) + "," + String(wilo.SF_T1_Before) + "," + String(wilo.SF_T2_Before) + "," + String(wilo.SF_T1_During) + "," + String(wilo.SF_T2_During)
@@ -486,36 +477,26 @@ void writeToSD()
     WriteToFile(DEFAULT_FILE_NAME, defaultWiLoData.c_str());
     Serial.println("******************************************************");
 
-if(wilo.i2cDeviceType==RTC){
- setupRTC();
- DateTime now = rtc.now();
- char datetimeBuf[30];
-snprintf(datetimeBuf, sizeof(datetimeBuf), "%04d-%02d-%02d %02d:%02d:%02d",
-         now.year(), now.month(), now.day(),
-         now.hour(), now.minute(), now.second());
+
+
+
+String getDate = getDateTimeRTC(GET_DATE);
+String getTime = getDateTimeRTC(GET_TIME);
+
+Serial.println("Writing time and boot count to file: ");
+Serial.println(FILE_NAME_TIME);
+Serial.println("Data:");
+
        
-String timeAndBootCount = String(datetimeBuf) + ", Bootcount: " + String(float(wilo.bootCount)/100.0);
+String timeAndBootCount = getDate + "," + getTime + "," + "Bootcount: " + String(float(wilo.bootCount)/100.0);
 
- Serial.println("RTC Connected on DEFAULT port, writing to TIME file: "+ timeAndBootCount);
+
+
+Serial.println(timeAndBootCount);
+
+
+createFileBasic(FILE_NAME_TIME, "Date,Time,Bootcount\n");
 WriteToFile(FILE_NAME_TIME, timeAndBootCount.c_str());
-}
-
-for (int port = 0; port <8; port++){
-  if(i2cDevice[port].sensorType==RTC){
-    setupRTC();
-    I2C_Mux_SelectPort(port);
- DateTime now = rtc.now();
- char datetimeBuf[30];
-snprintf(datetimeBuf, sizeof(datetimeBuf), "%04d-%02d-%02d %02d:%02d:%02d",
-         now.year(), now.month(), now.day(),
-         now.hour(), now.minute(), now.second());
-       
-String timeAndBootCount = String(datetimeBuf) + ", Bootcount: " + String(float(wilo.bootCount)/100.0);
-
- Serial.println("RTC Connected on port" + String(port) +", writing to TIME file: "+ timeAndBootCount);
-WriteToFile(FILE_NAME_TIME, timeAndBootCount.c_str());
-  }
-}
 
   power_SD_OFF();
 
@@ -545,7 +526,6 @@ void power_SD_ON()
   if(!(digitalRead(SD_ENABLE_PIN)&&digitalRead(LORA_CS_PIN))){
   digitalWrite(SD_ENABLE_PIN, HIGH);
   digitalWrite(LORA_CS_PIN, HIGH); // SET LoRa CS pin HIGH
-  delay(300);
   }
 }
 
@@ -1113,4 +1093,168 @@ bool readLastPayloadConfigBytes(uint8_t *outBytes) {
 
 String getFileNameSDI12(){
   return String(fileName_SDI12);
+}
+
+void CreateMUXFile(int port, uint8_t sensorType) {
+  // Serial.println("##################################################");
+  
+  // Build filename based on sensor type and port
+  String fileName = "";
+  String headerLine = "";
+  
+  switch(sensorType) {
+    case SAPFLOW_SENSOR:
+      fileName = "/SAPFLOW_MUX_PORT_" + String(port) + "_TIMESTAMPED.csv";
+      // Create header for sapflow data
+      headerLine = "Date,Time,Temp1,Temp2,HP_State,Boot_Count\n";
+      break;
+      
+    case DENDROMETER:
+      fileName = "/DENDROMETER_MUX_PORT_" + String(port) + "_TIMESTAMPED.csv";
+      // Create header for dendrometer data
+      headerLine = "Timestamp,Boot_Count\n";
+      break;
+      
+    case RTC:
+      fileName = "/RTC_MUX_PORT_" + String(port) + "_TIMESTAMPED.csv";
+      headerLine = "Timestamp,Temp1,Temp2,HP_State,Boot_Count\n";
+      break;
+      
+    default:
+      Serial.println("Unknown sensor type, aborting file creation");
+      return;
+  }
+  
+
+  // Setup SD card
+  SDSetup();
+  
+  // Check if file exists
+  if (SD.exists(fileName.c_str())) {
+    Serial.println("File already exists, skipping creation");
+    power_SD_OFF();
+    return;
+  }
+  
+  // Create the file with header
+  Serial.println("File does not exist, creating with header:");
+  Serial.println(headerLine);
+  
+  File file = SD.open(fileName.c_str(), FILE_WRITE);
+  if (!file) {
+    Serial.println("Failed to create file!");
+    power_SD_OFF();
+    return;
+  }
+  
+  if (file.print(headerLine)) {
+    Serial.println("File created successfully with header");
+  } else {
+    Serial.println("Failed to write header");
+  }
+  
+  file.close();
+  power_SD_OFF();
+  
+  Serial.println("##################################################");
+}
+
+void writeToMuxFile(int port, uint8_t sensorType, const char *message) {
+  // Serial.println("##################################################");
+  // Serial.println("Writing to MUX file");
+  // Serial.print("Port: ");
+  // Serial.print(port);
+  // Serial.print(", Sensor Type: ");
+  // Serial.println(sensorType);
+  
+  // First, ensure the file exists by calling CreateFile
+  CreateMUXFile(port, sensorType);
+  
+  // Build filename based on sensor type and port
+  String fileName = "";
+  
+  switch(sensorType) {
+    case SAPFLOW_SENSOR:
+      fileName = "/SAPFLOW_MUX_PORT_" + String(port) + "_TIMESTAMPED.csv";
+      Serial.print("Writing to Sapflow file: ");
+      break;
+      
+    case DENDROMETER:
+      fileName = "/DENDROMETER_MUX_PORT_" + String(port) + "_TIMESTAMPED.csv";
+      Serial.print("Writing to Dendrometer file: ");
+      break;
+      
+    case RTC:
+      fileName = "/RTC_MUX_PORT_" + String(port) + "_TIMESTAMPED.csv";
+      Serial.print("Writing to RTC file: ");
+      break;
+      
+    default:
+      Serial.println("Unknown sensor type, aborting write operation");
+      return;
+  }
+  
+  Serial.println(fileName);
+  Serial.print("Data to write: ");
+  Serial.println(message);
+  
+  // Setup SD card
+  power_SD_ON();
+  setSPI(SD_SPI);
+
+
+  int retryCount = 0;
+  while(!SD.begin(SD_CS_PIN, SPI, 80000000) && retryCount < 5)
+  {
+    Serial.println("Card Mount Failed");
+    
+    for (size_t i = 0; i < 2; i++)
+    {
+      digitalWrite(DEBUG_LED_PIN, HIGH);
+      delay(20);
+      digitalWrite(DEBUG_LED_PIN, LOW);
+      delay(20);
+    }
+    retryCount++;
+    delay(1000);
+  }
+  
+  if (retryCount == 5) {
+    Serial.println("SD card mount failed after 5 attempts");
+    power_SD_OFF();
+    return;
+  }
+
+  // Open file in append mode
+  File file = SD.open(fileName.c_str(), FILE_APPEND);
+  if (!file) {
+    Serial.println("Failed to open file for appending");
+    power_SD_OFF();
+    return;
+  }
+
+  // Write the message
+  if (file.println(message)) {
+    Serial.println("Data written successfully to file");
+  } else {
+    Serial.println("Write failed");
+  }
+  
+  file.close();
+  power_SD_OFF();
+  
+  Serial.println("##################################################");
+}
+
+void createFileBasic(const char* fileName, const char* header) {
+  SDSetup();
+
+  if (!SD.exists(fileName)) {
+    Serial.print("Creating file: ");
+    Serial.println(fileName);
+    writeFile(SD, fileName, header);
+  } else {
+    Serial.print("File already exists: ");
+    Serial.println(fileName);
+  }
 }
