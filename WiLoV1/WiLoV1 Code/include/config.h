@@ -100,4 +100,4 @@
 #define WIFI_TIMEOUT 15000 // Timeout for WiFi connection in milliseconds
 
 
-//#define WIFI_ENABLED
+#define WIFI_ENABLED
