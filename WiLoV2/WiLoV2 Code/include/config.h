@@ -85,6 +85,7 @@
 //Sapflow sensor heat pulse state measuring time
 #define SAMPLE_TIME_BEFORE_HP 5000 //5 seconds
 #define SAMPLE_TIME_DURING_HP 10000 // 10 seconds
+#define SF_DELAY 25000 // 25 seconds
 #define SAMPLE_TIME_AFTER_HP 10000 // 10 seconds
 
 //Deep sleep times

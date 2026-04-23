@@ -33,6 +33,9 @@ unsigned long millisStartHeatPulse = 0;
 //Millis value for last time heater was turned on
 unsigned long previousHeaterOnTime = 0;
 
+//Timestamp for when the post-heat delay started
+unsigned long millisStartWaitAfterHeat = 0;
+
 //Counter for millis since we started tracking reference temperatures
 unsigned long millisStartReferenceTemp = 0;
 
@@ -166,17 +169,26 @@ void SF_Measure(){
   {
     digitalWrite(HEAT_PULSE_EN_PIN, LOW);
    // SDI12_Shutdown();
-    HEATER_STATE = AFTER_HEAT;
-    Serial.println(F("Heater OFF"));
+    HEATER_STATE = WAIT_AFTER_HEAT;
+    millisStartWaitAfterHeat = currentMillis;
+    Serial.println(F("Heater OFF. Waiting 25s before after-heat sampling."));
      Serial.println("******************************************************");
-    
+
+  }
+
+  // 25-second delay before after-heat sampling begins
+  if (HEATER_STATE == WAIT_AFTER_HEAT && currentMillis - millisStartWaitAfterHeat >= SF_DELAY)
+  {
+    HEATER_STATE = AFTER_HEAT;
+    Serial.println(F("Wait period over. Starting after-heat measurements."));
+    Serial.println("******************************************************");
   }
 
   millisSinceHeatPulse = currentMillis - previousHeaterOnTime;
   millisSinceReferenceTemp = currentMillis - millisStartReferenceTemp;
 
   
-   if (millisSinceHeatPulse > (SAMPLE_TIME_DURING_HP+SAMPLE_TIME_AFTER_HP)) {
+   if (previousHeaterOnTime != 0 && millisSinceHeatPulse > (SAMPLE_TIME_DURING_HP+SF_DELAY+SAMPLE_TIME_AFTER_HP)) {
     Serial.println(" All sapflow measurements done done!");
 
 
@@ -197,7 +209,7 @@ void SF_Measure(){
    SF_DONE = 1;
      return;}
 
-  if (millis() - tempSensorTimer >= 1000)
+  if (millis() - tempSensorTimer >= 1000 && HEATER_STATE != WAIT_AFTER_HEAT)
   {
 
     if(wilo.i2cDeviceType==I2C_MUX){
