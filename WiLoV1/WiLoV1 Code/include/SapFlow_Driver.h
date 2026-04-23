@@ -18,7 +18,8 @@
 
 #define BEFORE_HEAT 0
 #define DURING_HEAT 1
-#define AFTER_HEAT 2
+#define WAIT_AFTER_HEAT 2
+#define AFTER_HEAT 3
 
 void SFSetup();
 void SF_Measure();
