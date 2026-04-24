@@ -240,7 +240,7 @@ void passValuesToStruct(uint8_t port, float T1, float T2,uint8_t heatState)
 {
   switch (heatState)
     {
-        case 0: // Before heating
+        case : // Before heating
         i2cDevice[port].sumT1Before += T1;
         i2cDevice[port].sumT2Before += T2;
         i2cDevice[port].countT1Before++;
@@ -254,12 +254,20 @@ void passValuesToStruct(uint8_t port, float T1, float T2,uint8_t heatState)
         i2cDevice[port].countT2During++;
         break;
     
-        case AFTER_HEAT: // After heating
+        case 3: // After heating
         //Serial.println("TEST");
         i2cDevice[port].sumT1After += T1;
         i2cDevice[port].sumT2After += T2;
         i2cDevice[port].countT1After++;
         i2cDevice[port].countT2After++;
+        Serial.println("This is a test print to show values being passed AFTER HEAT PULSE to struct for port: " + String(port));
+        Serial.print("Sum T1 After: ");
+        Serial.println(i2cDevice[port].sumT1After);
+        Serial.print("Sum T2 After: ");
+        Serial.println(i2cDevice[port].sumT2After);
+        Serial.print("Count T1 After: ");
+        Serial.println(i2cDevice[port].countT1After);
+        Serial.print("Count T2 After: ");
         break;
 
         default:
@@ -285,7 +293,7 @@ void passValuesToStructDefaultWilo( float T1, float T2,uint8_t heatState)
         wilo.countT2During++;
         break;
 
-        case AFTER_HEAT: // After heating
+        case 3: // After heating
         //Serial.println("TEST");
         wilo.sumT1After += T1;
         wilo.sumT2After += T2;
@@ -341,45 +349,45 @@ void calculateAverages(uint8_t port)
     i2cDevice[port].avgT2After = 1111.11f;
      }
 
-    // Serial.print("this is debugging print to show sums, avgs, and counts on port: ");
-    // Serial.println(port);
-    // Serial.print("Sum T1 Before: ");
-    // Serial.println(i2cDevice[port].sumT1Before);
-    // Serial.print("Sum T2 Before: ");
-    // Serial.println(i2cDevice[port].sumT2Before);
-    // Serial.print("Sum T1 During: ");
-    // Serial.println(i2cDevice[port].sumT1During);
-    // Serial.print("Sum T2 During: ");
-    // Serial.println(i2cDevice[port].sumT2During);
-    // Serial.print("Sum T1 After: ");
-    // Serial.println(i2cDevice[port].sumT1After);
-    // Serial.print("Sum T2 After: ");
-    // Serial.println(i2cDevice[port].sumT2After);
-    // Serial.print("Count T1 Before: ");
-    // Serial.println(i2cDevice[port].countT1Before);
-    // Serial.print("Count T2 Before: ");
-    // Serial.println(i2cDevice[port].countT2Before);
-    // Serial.print("Count T1 During: ");
-    // Serial.println(i2cDevice[port].countT1During);
-    // Serial.print("Count T2 During: ");
-    // Serial.println(i2cDevice[port].countT2During);
-    // Serial.print("Count T1 After: ");
-    // Serial.println(i2cDevice[port].countT1After);
-    // Serial.print("Count T2 After: ");
-    // Serial.println(i2cDevice[port].countT2After);
-    // Serial.print("Avg T1 Before: ");
-    // Serial.println(i2cDevice[port].avgT1Before);
-    // Serial.print("Avg T2 Before: ");
-    // Serial.println(i2cDevice[port].avgT2Before);
-    // Serial.print("Avg T1 During: ");
-    // Serial.println(i2cDevice[port].avgT1During);
-    // Serial.print("Avg T2 During: ");
-    // Serial.println(i2cDevice[port].avgT2During);
-    // Serial.print("Avg T1 After: ");
-    // Serial.println(i2cDevice[port].avgT1After);
-    // Serial.print("Avg T2 After: ");
-    // Serial.println(i2cDevice[port].avgT2After);
-    // Serial.println();
+    Serial.print("this is debugging print to show sums, avgs, and counts on port: ");
+    Serial.println(port);
+    Serial.print("Sum T1 Before: ");
+    Serial.println(i2cDevice[port].sumT1Before);
+    Serial.print("Sum T2 Before: ");
+    Serial.println(i2cDevice[port].sumT2Before);
+    Serial.print("Sum T1 During: ");
+    Serial.println(i2cDevice[port].sumT1During);
+    Serial.print("Sum T2 During: ");
+    Serial.println(i2cDevice[port].sumT2During);
+    Serial.print("Sum T1 After: ");
+    Serial.println(i2cDevice[port].sumT1After);
+    Serial.print("Sum T2 After: ");
+    Serial.println(i2cDevice[port].sumT2After);
+    Serial.print("Count T1 Before: ");
+    Serial.println(i2cDevice[port].countT1Before);
+    Serial.print("Count T2 Before: ");
+    Serial.println(i2cDevice[port].countT2Before);
+    Serial.print("Count T1 During: ");
+    Serial.println(i2cDevice[port].countT1During);
+    Serial.print("Count T2 During: ");
+    Serial.println(i2cDevice[port].countT2During);
+    Serial.print("Count T1 After: ");
+    Serial.println(i2cDevice[port].countT1After);
+    Serial.print("Count T2 After: ");
+    Serial.println(i2cDevice[port].countT2After);
+    Serial.print("Avg T1 Before: ");
+    Serial.println(i2cDevice[port].avgT1Before);
+    Serial.print("Avg T2 Before: ");
+    Serial.println(i2cDevice[port].avgT2Before);
+    Serial.print("Avg T1 During: ");
+    Serial.println(i2cDevice[port].avgT1During);
+    Serial.print("Avg T2 During: ");
+    Serial.println(i2cDevice[port].avgT2During);
+    Serial.print("Avg T1 After: ");
+    Serial.println(i2cDevice[port].avgT1After);
+    Serial.print("Avg T2 After: ");
+    Serial.println(i2cDevice[port].avgT2After);
+    Serial.println();
 }
 
 
