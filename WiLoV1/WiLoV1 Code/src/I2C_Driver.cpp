@@ -254,14 +254,14 @@ void passValuesToStruct(uint8_t port, float T1, float T2,uint8_t heatState)
         i2cDevice[port].countT2During++;
         break;
     
-        case 2: // After heating
+        case AFTER_HEAT: // After heating
         //Serial.println("TEST");
         i2cDevice[port].sumT1After += T1;
         i2cDevice[port].sumT2After += T2;
         i2cDevice[port].countT1After++;
         i2cDevice[port].countT2After++;
         break;
-    
+
         default:
         break;
     }
@@ -277,15 +277,15 @@ void passValuesToStructDefaultWilo( float T1, float T2,uint8_t heatState)
         wilo.countT1Before++;
         wilo.countT2Before++;
         break;
-    
+
         case 1: // During heating
         wilo.sumT1During += T1;
         wilo.sumT2During += T2;
         wilo.countT1During++;
         wilo.countT2During++;
         break;
-    
-        case 2: // After heating
+
+        case AFTER_HEAT: // After heating
         //Serial.println("TEST");
         wilo.sumT1After += T1;
         wilo.sumT2After += T2;
