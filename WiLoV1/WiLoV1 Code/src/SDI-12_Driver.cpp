@@ -482,17 +482,31 @@ currentMillis = millis();
         delay(10);
       }
     }
-    if (measurementsMeta.CS655.length() > 1)
-      Serial.println("CS655 Metadata: "+ measurementsMeta.CS655);  // Write the response to the screen
+    if (measurementsMeta.CS655.length() > 1) {
+      Serial.println("CS655 Metadata: "+ measurementsMeta.CS655);
+      // C! response format: atttnn — parse ttt (seconds) to set actual measurement wait
+      if (measurementsMeta.CS655.length() >= 4) {
+        unsigned long ttt = measurementsMeta.CS655.substring(1, 4).toInt();
+        SDI12_DATA_REQUEST_DELAY = max(500UL, ttt * 1000 + 300); // +300ms margin
+        Serial.print("CS655 measurement wait (ms): ");
+        Serial.println(SDI12_DATA_REQUEST_DELAY);
+      }
+    }
     mySDI12.clearBuffer();
     previousMillisD = currentMillis; // Start delay for data request
-    //measurementRequested = false;
     dataRequesting = true;
     return 0;
   }
 
-  if (dataRequesting && (currentMillis - previousMillisD >= 2500)&&!dataReceiving) {
-    // Next command to request data from last measurement
+  if (dataRequesting && (currentMillis - previousMillisD >= SDI12_DATA_REQUEST_DELAY)&&!dataReceiving) {
+    // Some CS655 units send an unsolicited service request after C! even though the spec
+    // doesn't require it. If we fire D0! while the sensor is still transmitting that
+    // service request, the bus collision causes the sensor to miss D0! and return nothing.
+    // Wait long enough for any in-progress service request (3 bytes @ 1200 baud ≈ 25 ms)
+    // to finish, then clear it before asserting our break signal.
+    delay(50);
+    mySDI12.clearBuffer();
+
     String myCommand = String(sensorAddress) + "D0!";
     Serial.println(myCommand);  // Echo command to terminal
     mySDI12.sendCommand(myCommand);
