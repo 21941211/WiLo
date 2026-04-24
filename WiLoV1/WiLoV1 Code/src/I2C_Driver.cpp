@@ -240,7 +240,7 @@ void passValuesToStruct(uint8_t port, float T1, float T2,uint8_t heatState)
 {
   switch (heatState)
     {
-        case : // Before heating
+        case 0:  // Before heating
         i2cDevice[port].sumT1Before += T1;
         i2cDevice[port].sumT2Before += T2;
         i2cDevice[port].countT1Before++;
