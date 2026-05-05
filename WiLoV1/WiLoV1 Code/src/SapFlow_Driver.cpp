@@ -71,33 +71,20 @@ digitalWrite(SF_DENDRO_EN_PIN,HIGH);
   {
     if (i2cDevice[port].sensorType == SAPFLOW_SENSOR)
     {
-     // Serial.print("Sapflow sensor exists on port: ");
-     // Serial.println(port);
       I2C_Mux_SelectPort(port);
-      delay(50);
+      delay(2);  // POR after power-gate
       sensor.begin();
       sensor2.begin();
 
-  // Begin with a device reset
       sensor.reset();
       sensor2.reset();
 
-  // Configure Measurements
-  sensor.setMeasurementMode(TEMP_ONLY); // Set measurements to temperature and humidity
-  sensor2.setMeasurementMode(TEMP_ONLY);
-  sensor.setRate(TWO_HZ); // Set measurement frequency to 2 Hz
-  sensor2.setRate(TWO_HZ);
-  sensor.setTempRes(FOURTEEN_BIT);
-  sensor2.setTempRes(FOURTEEN_BIT);
-  // sensor.setHumidRes(FOURTEEN_BIT);
-  // sensor2.setHumidRes(FOURTEEN_BIT);
-
-  //begin measuring
-  sensor.triggerMeasurement();
-  sensor2.triggerMeasurement();
-
-//Serial.println("Sapflow setup done on port: " + String(port));
-//Serial.println("******************************************************");
+      sensor.setMeasurementMode(TEMP_ONLY);
+      sensor2.setMeasurementMode(TEMP_ONLY);
+      sensor.setRate(MANUAL);  // one-shot per trigger; continuous is lost on power-gate
+      sensor2.setRate(MANUAL);
+      sensor.setTempRes(FOURTEEN_BIT);
+      sensor2.setTempRes(FOURTEEN_BIT);
     }
   }
   }else if(wilo.sfconnected){
@@ -221,22 +208,29 @@ for (int port = 0; port < 8; port++)
         {
          
           I2C_Mux_SelectPort(port);
-          delay(50);
-          
-          for(uint8_t sample =0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
+          delay(2);  // POR after power-gate
+
+          // Configure without reset — power-gate is an effective hard reset
+          sensor.setMeasurementMode(TEMP_ONLY);
+          sensor.setRate(MANUAL);
+          sensor.setTempRes(FOURTEEN_BIT);
+          sensor2.setMeasurementMode(TEMP_ONLY);
+          sensor2.setRate(MANUAL);
+          sensor2.setTempRes(FOURTEEN_BIT);
+
+          for(uint8_t sample = 0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
+            sensor.triggerMeasurement();
+            sensor2.triggerMeasurement();
+            delay(5);  // 14-bit temp-only conversion: 3.65ms per datasheet
             arrTemp1Median[sample] = sensor.readTemp();
             arrTemp2Median[sample] = sensor2.readTemp();
-            //delay(20);
           }
 
           temp1 = trimmedMean(arrTemp1Median, SAPFLOW_SAMPLE_SIZE,5);
           temp2 = trimmedMean(arrTemp2Median, SAPFLOW_SAMPLE_SIZE,5);
 
-         // Serial.println("Getting DateTime from RTC...");
-          String SFDate  = getDateTimeRTC(GET_DATE); // Get DATE
-          String SFTime = getDateTimeRTC(GET_TIME); // Get TIME
-
-          SFSetup();
+          String SFDate  = getDateTimeRTC(GET_DATE);
+          String SFTime = getDateTimeRTC(GET_TIME);
 
           std::string temp1Str = std::to_string(temp1);
           std::string temp2Str = std::to_string(temp2);
@@ -329,10 +323,19 @@ void SFtestRead(){
         if (i2cDevice[port].sensorType == SAPFLOW_SENSOR)
         {
           I2C_Mux_SelectPort(port);
-          //delay(50);
-        
+          delay(2);  // POR after power-gate
 
-          for(uint8_t sample =0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
+          sensor.setMeasurementMode(TEMP_ONLY);
+          sensor.setRate(MANUAL);
+          sensor.setTempRes(FOURTEEN_BIT);
+          sensor2.setMeasurementMode(TEMP_ONLY);
+          sensor2.setRate(MANUAL);
+          sensor2.setTempRes(FOURTEEN_BIT);
+
+          for(uint8_t sample = 0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
+            sensor.triggerMeasurement();
+            sensor2.triggerMeasurement();
+            delay(5);
             arrTemp1Median[sample] = sensor.readTemp();
             arrTemp2Median[sample] = sensor2.readTemp();
           }
