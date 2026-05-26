@@ -76,7 +76,7 @@
 
 #define SD_ENABLE_PIN 4
 
-#define SAPFLOW_SAMPLE_SIZE 10
+#define SAPFLOW_SAMPLE_SIZE 5
 
 // Number of samples taken for each dendrometer
 #define DENDRO_SAMPLE_SIZE 10

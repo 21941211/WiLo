@@ -98,14 +98,22 @@ digitalWrite(SF_DENDRO_EN_PIN,HIGH);
       sensor2.reset();
 
   // Configure Measurements
-  sensor.setMeasurementMode(TEMP_ONLY); // Set measurements to temperature and humidity
-  sensor2.setMeasurementMode(TEMP_ONLY);
-  sensor.setRate(TWO_HZ); // Set measurement frequency to 1 Hz
-  sensor2.setRate(TWO_HZ);
+  // sensor.setMeasurementMode(TEMP_ONLY); // Set measurements to temperature and humidity
+  // sensor2.setMeasurementMode(TEMP_ONLY);
+  // sensor.setRate(TWO_HZ); // Set measurement frequency to 1 Hz
+  // sensor2.setRate(TWO_HZ);
+  // sensor.setTempRes(FOURTEEN_BIT);
+  // sensor2.setTempRes(FOURTEEN_BIT);
+  // sensor.setHumidRes(FOURTEEN_BIT);
+  // sensor2.setHumidRes(FOURTEEN_BIT);
+
+  sensor.setMeasurementMode(TEMP_ONLY);
+  sensor.setRate(MANUAL);
   sensor.setTempRes(FOURTEEN_BIT);
+  sensor2.setMeasurementMode(TEMP_ONLY);
+  sensor2.setRate(MANUAL);
   sensor2.setTempRes(FOURTEEN_BIT);
-  sensor.setHumidRes(FOURTEEN_BIT);
-  sensor2.setHumidRes(FOURTEEN_BIT);
+
 
   //begin measuring
   sensor.triggerMeasurement();
@@ -208,7 +216,7 @@ for (int port = 0; port < 8; port++)
         {
          
           I2C_Mux_SelectPort(port);
-          delay(2);  // POR after power-gate
+          delay(10);  // POR after power-gate
 
           // Configure without reset — power-gate is an effective hard reset
           sensor.setMeasurementMode(TEMP_ONLY);
@@ -218,16 +226,34 @@ for (int port = 0; port < 8; port++)
           sensor2.setRate(MANUAL);
           sensor2.setTempRes(FOURTEEN_BIT);
 
+
+            for(uint8_t sample = 0; sample < 3; sample++){
+            sensor.triggerMeasurement();
+            sensor2.triggerMeasurement();
+            delay(5);  // 14-bit temp-only conversion: 3.65ms per datasheet
+           float temp1Sample = sensor.readTemp();
+            float temp2Sample = sensor2.readTemp();
+
+            Serial.println("//////////////////////////////////////////////////");
+            Serial.println("Pre storage sample " + String(sample) + " on port " + String(port) + ": T1=" + String(temp1Sample) + "C, T2=" + String(temp2Sample) + "C");
+             Serial.println("//////////////////////////////////////////////////");
+          }
+
+
           for(uint8_t sample = 0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
             sensor.triggerMeasurement();
             sensor2.triggerMeasurement();
             delay(5);  // 14-bit temp-only conversion: 3.65ms per datasheet
             arrTemp1Median[sample] = sensor.readTemp();
             arrTemp2Median[sample] = sensor2.readTemp();
+
+            Serial.println("##################################");
+            Serial.println("Sample " + String(sample) + " on port " + String(port) + ": T1=" + String(arrTemp1Median[sample]) + "C, T2=" + String(arrTemp2Median[sample]) + "C");
+             Serial.println("##################################");
           }
 
-          temp1 = trimmedMean(arrTemp1Median, SAPFLOW_SAMPLE_SIZE,5);
-          temp2 = trimmedMean(arrTemp2Median, SAPFLOW_SAMPLE_SIZE,5);
+          temp1 = trimmedMean(arrTemp1Median, SAPFLOW_SAMPLE_SIZE,3);
+          temp2 = trimmedMean(arrTemp2Median, SAPFLOW_SAMPLE_SIZE,3);
 
           String SFDate  = getDateTimeRTC(GET_DATE);
           String SFTime = getDateTimeRTC(GET_TIME);
@@ -264,15 +290,32 @@ for (int port = 0; port < 8; port++)
       }
     }else {
 
-    
+           for(uint8_t sample = 0; sample < 3; sample++){
+            sensor.triggerMeasurement();
+            sensor2.triggerMeasurement();
+            delay(5);  // 14-bit temp-only conversion: 3.65ms per datasheet
+           float temp1Sample = sensor.readTemp();
+            float temp2Sample = sensor2.readTemp();
+
+            Serial.println("//////////////////////////////////////////////////");
+            Serial.println("Pre storage sample " + String(sample) + " on default port: T1=" + String(temp1Sample) + "C, T2=" + String(temp2Sample) + "C");
+             Serial.println("//////////////////////////////////////////////////");
+          }
+
+
         
            for(uint8_t sample =0; sample < SAPFLOW_SAMPLE_SIZE; sample++){
+            sensor.triggerMeasurement();
+            sensor2.triggerMeasurement();
+
+            delay(5);  // 14-bit temp-only conversion
+
             arrTemp1Median[sample] = sensor.readTemp();
             arrTemp2Median[sample] = sensor2.readTemp();
           }
 
-          temp1 = trimmedMean(arrTemp1Median, SAPFLOW_SAMPLE_SIZE,5);
-          temp2 = trimmedMean(arrTemp2Median, SAPFLOW_SAMPLE_SIZE,5);
+          temp1 = trimmedMean(arrTemp1Median, SAPFLOW_SAMPLE_SIZE,3);
+          temp2 = trimmedMean(arrTemp2Median, SAPFLOW_SAMPLE_SIZE,3);
 
        
           Serial.print("Measurement on default port: ");
@@ -323,7 +366,7 @@ void SFtestRead(){
         if (i2cDevice[port].sensorType == SAPFLOW_SENSOR)
         {
           I2C_Mux_SelectPort(port);
-          delay(2);  // POR after power-gate
+          delay(10);  // POR after power-gate
 
           sensor.setMeasurementMode(TEMP_ONLY);
           sensor.setRate(MANUAL);
