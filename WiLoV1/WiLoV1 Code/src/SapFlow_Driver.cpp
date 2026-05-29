@@ -284,7 +284,7 @@ for (int port = 0; port < 8; port++)
         }
         else
         {
-          Serial.println("No saplfow sensor connected");
+          Serial.println("No sapflow sensor connected");
          
         }
       }
@@ -331,6 +331,8 @@ for (int port = 0; port < 8; port++)
           
           
     }
+
+    
 
     tempSensorTimer = millis();
     Serial.print(F(" millisSinceHeatPulse: "));
@@ -398,7 +400,7 @@ void SFtestRead(){
         }
         else
         {
-          Serial.println("No saplfow sensor connected");
+          Serial.println("No sapflow sensor connected");
          
         }
 }

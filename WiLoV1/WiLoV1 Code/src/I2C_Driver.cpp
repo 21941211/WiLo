@@ -268,6 +268,7 @@ void passValuesToStruct(uint8_t port, float T1, float T2,uint8_t heatState)
         Serial.print("Count T1 After: ");
         Serial.println(i2cDevice[port].countT1After);
         Serial.print("Count T2 After: ");
+        Serial.println(i2cDevice[port].countT2After);
         break;
 
         default:
