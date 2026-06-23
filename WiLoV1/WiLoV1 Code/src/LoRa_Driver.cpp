@@ -39,12 +39,13 @@ void LoRaSetup()
     Serial.println("Default WiLo Data from SD Card:");
     Serial.println(defaultWiLoLast);
    Serial.println("******************************************************");
-    Serial.println("Default WiLo Mux Dendro Data from SD Card:");
-    defaultWiLoMuxDendro = defaultWiLoMuxDendro.substring(0,defaultWiLoMuxDendro.length()-3);
+    int dendroLastComma = defaultWiLoMuxDendro.lastIndexOf(',');
+    if (dendroLastComma > 0) defaultWiLoMuxDendro = defaultWiLoMuxDendro.substring(0, dendroLastComma);
     Serial.println(defaultWiLoMuxDendro);
   Serial.println("******************************************************");
     Serial.println("Default WiLo Mux Sapflow Data from SD Card:");
-     defaultWiLoMuxSapflow = defaultWiLoMuxSapflow.substring(0,defaultWiLoMuxSapflow.length()-3);
+    int sapflowLastComma = defaultWiLoMuxSapflow.lastIndexOf(',');
+    if (sapflowLastComma > 0) defaultWiLoMuxSapflow = defaultWiLoMuxSapflow.substring(0, sapflowLastComma);
     Serial.println(defaultWiLoMuxSapflow);
    Serial.println("******************************************************");
 
